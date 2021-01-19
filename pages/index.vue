@@ -16,7 +16,7 @@ export default {
     }
   },
   asyncData: async function(){
-    return axios.post('https://cryptic-ridge-63036.herokuapp.com/api/').then(response => {
+    return axios.get('https://cryptic-ridge-63036.herokuapp.com/api/').then(response => {
       console.log(response.data);
       return {
         message: response.data
