@@ -1,5 +1,6 @@
 module.exports = {
     moldingCrumbs(route){
+        console.log(route)
         const crumbs = [];
         const splitted_crumbs = route.path.split('/');
         for (let i = 0; i < splitted_crumbs.length; i++) {

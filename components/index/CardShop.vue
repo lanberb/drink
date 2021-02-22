@@ -3,7 +3,7 @@
     class="card-shop"
     :to="{
         name: 'shop-id',
-        path: '/shop/:id?',
+        path: '/shop/:id',
         params: {
             id: 'スターバックス仙台中央通店',
         },
@@ -28,7 +28,7 @@
                 <span>JR仙台駅から徒歩10分(地下歩道からだと5分)</span>
             </p>
         </div>
-        <div class="information">
+        <div class="info">
             <div class="seats-available">
                 <div class="icon">
                     <img src="~/static/svg/seats.svg" alt="seats-image">
@@ -135,7 +135,7 @@ a.card-shop{
             }
         }
     }
-    div.information{
+    div.info{
         display: flex;
         justify-content: space-between;
         width: 100%;

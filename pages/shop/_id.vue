@@ -4,7 +4,7 @@
     <div class="thumbnail">
       <img src="~/static/image/sample/starbucks.jpg" alt="shop-thumbnail">
     </div>
-    <div class="shop-information">
+    <div class="shop-info">
       <BreadcrumbList
       :crumbs="crumbs"
       />
@@ -19,7 +19,7 @@
               <span>JR仙台駅から徒歩10分(地下歩道からだと5分)</span>
           </p>
       </div>
-      <div class="information">
+      <div class="info">
           <div class="seats-available">
               <div class="icon">
                   <img src="~/static/svg/seats.svg" alt="seats-image">
@@ -47,7 +47,10 @@
       </div>
     </div>
     <div class="shop-ordertypes">
-      <div class="ordertype-active drink">
+      <div
+      @click="ordertype = 'drink'"
+      :class="ordertype == 'drink' ? 'ordertype-active' : null"
+      class="drink">
         <div class="icon">
           <svg x="0px" y="0px" viewBox="0 0 512 512">
           <g>
@@ -70,7 +73,10 @@
           <span>Drink / 飲み物</span>
         </p>
       </div>
-      <div class="meal">
+      <div
+      @click="ordertype = 'meals'"
+      :class="ordertype == 'meals' ? 'ordertype-active' : null"
+      class="meal">
         <div class="icon">
           <svg x="0px" y="0px" viewBox="0 0 512 512">
           <g>
@@ -134,10 +140,13 @@
           </svg>
         </div>
         <p class="text">
-          <span>Meal / お食事</span>
+          <span>Meals / お食事</span>
         </p>
       </div>
-      <div class="goods">
+      <div
+      @click="ordertype = 'goods'"
+      :class="ordertype == 'goods' ? 'ordertype-active' : null"
+      class="goods">
         <div class="icon">
           <svg x="0px" y="0px" viewBox="0 0 512 512">
           <g>
@@ -159,7 +168,14 @@
     <hr noshade>
     <div class="shop-ordermenus">
       <nuxt-link class="ordermenu"
-      to="/"
+      :to="{
+          name: 'shop-items-id',
+          path: '/shop/:items/:id',
+          params: {
+              id: 'スターバックス仙台中央通店',
+              items: 'スターバックス仙台中央通店',
+          },
+      }"
       v-for="order in 5"
       :key="order.id"
       >
@@ -186,13 +202,13 @@ export default {
     },
     data: function(){ 
       return{
-          url: 3,
-          crumbs: [],
+          ordertype: 'drink',
+          crumbs: moldingCrumbs(this.$route)
       }
     },
-    asyncData: async function($http){
-      return {
-        crumbs: moldingCrumbs($http.route)
+    watch: {
+      ordertype: function(value){
+        console.log(value);
       }
     },
 }
@@ -207,6 +223,7 @@ section{
     height: 100vh;
 }
 a.menu{
+  margin-top: 48px;
   top: 16px;
 }
 div.thumbnail{
@@ -220,7 +237,7 @@ div.thumbnail{
         object-fit: cover;
     }
 }
-div.shop-information{
+div.shop-info{
   padding-left: 16px;
   padding-right: 16px;
   div.breadcrumb-list{
@@ -262,7 +279,7 @@ div.shop-information{
           }
       }
   }
-  div.information{
+  div.info{
       display: flex;
       justify-content: space-between;
       width: 100%;
