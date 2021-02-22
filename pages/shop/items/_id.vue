@@ -148,8 +148,13 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+$font-ja: "Yu Gothic Medium", "游ゴシック Medium", '游ゴシック', "游ゴシック体", 'Yu Gothic', YuGothic, 'メイリオ', 'Meiryo', sans-serif;
+*{
+  font-family: $font-ja;
+}
 section{
     padding-top: 64px;
+    height: 100vh;
 }
 div.item-info{
     margin-bottom: 32px;
