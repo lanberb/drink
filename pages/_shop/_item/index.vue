@@ -1,18 +1,23 @@
 <template>
 <section>
-    <Menu/>
     <div class="item-info">
         <!-- <BreadcrumbList
         :crumbs="crumbs"
         /> -->
-        <h2>{{ drink.name }}</h2>
+        <h2>
+            <span>{{ item.name_ja }}</span>
+        </h2>
     </div>
     <hr noshade>
     <div class="item-details">
+        <p class="label">
+            <span>Size / サイズ</span>
+        </p>
         <div class="item-size">
             <div class="small"
-            @click="drink.size = 'small'"
-            :class="drink.size == 'small' ? 'item-size-active' : null">
+            v-if="item.size.small != null"
+            @click="order.size = 'small'"
+            :class="order.size == 'small' ? 'item-size-active' : null">
                 <div class="icon">
                     <svg xmlns="http://www.w3.org/2000/svg" width="32" height="38.4" viewBox="0 0 32 38.4">
                         <path id="パス_18" data-name="パス 18" d="M94.01,11.264V4.437H91.621L91.347,0H64.673L64.4,4.437H62.01v6.827h2.18l.214,3.473H64L65,31h.4l.457,7.4H90.156l.457-7.4h.4l1-16.264h-.4l.214-3.473h2.18ZM88.027,36.352H67.993L67.663,31H88.357ZM89.36,14.737h-22.7l-.235-3.815H89.6Zm2.4-5.521h-27.5V6.485h2.265L66.8,2.048H89.218l.274,4.437h2.265V9.216Z" transform="translate(-62.01)"/>
@@ -23,8 +28,9 @@
                 </p>
             </div>
             <div class="medium"
-            @click="drink.size = 'medium'"
-            :class="drink.size == 'medium' ? 'item-size-active' : null">
+            v-if="item.size.medium != null"
+            @click="order.size = 'medium'"
+            :class="order.size == 'medium' ? 'item-size-active' : null">
                 <div class="icon">
                     <svg xmlns="http://www.w3.org/2000/svg" width="32" height="44.8" viewBox="0 0 32 44.8">
                         <path id="パス_18" data-name="パス 18" d="M94.01,11.264V4.437H91.621L91.347,0H64.673L64.4,4.437H62.01v6.827h2.18l.214,3.473H64L65,31h.4l.457,7.4H90.156l.457-7.4h.4l1-16.264h-.4l.214-3.473h2.18ZM88.027,36.352H67.993L67.663,31H88.357ZM89.36,14.737h-22.7l-.235-3.815H89.6Zm2.4-5.521h-27.5V6.485h2.265L66.8,2.048H89.218l.274,4.437h2.265V9.216Z" transform="translate(-62.01, -0) scale(1, 1.16)"/>
@@ -35,8 +41,9 @@
                 </p>
             </div>
             <div class="large"
-            @click="drink.size = 'large'"
-            :class="drink.size == 'large' ? 'item-size-active' : null">
+            v-if="item.size.large != null"
+            @click="order.size = 'large'"
+            :class="order.size == 'large' ? 'item-size-active' : null">
                 <div class="icon">
                     <svg xmlns="http://www.w3.org/2000/svg" width="32" height="51.2" viewBox="0 0 32 51.2">
                         <path id="パス_18" data-name="パス 18" d="M94.01,11.264V4.437H91.621L91.347,0H64.673L64.4,4.437H62.01v6.827h2.18l.214,3.473H64L65,31h.4l.457,7.4H90.156l.457-7.4h.4l1-16.264h-.4l.214-3.473h2.18ZM88.027,36.352H67.993L67.663,31H88.357ZM89.36,14.737h-22.7l-.235-3.815H89.6Zm2.4-5.521h-27.5V6.485h2.265L66.8,2.048H89.218l.274,4.437h2.265V9.216Z" transform="translate(-62.01) scale(1, 1.33)"/>
@@ -48,10 +55,13 @@
             </div>
         </div>
         <hr noshade>
+        <p class="label">
+            <span>Type / ドリンクタイプ</span>
+        </p>
         <div class="item-type">
             <div class="hot"
-            @click="drink.type = 'hot'"
-            :class="drink.type == 'hot' ? 'item-type-active-hot' : null">
+            @click="order.type = 'hot'"
+            :class="order.type == 'hot' ? 'item-type-active-hot' : null">
                 <div class="icon">
                     <svg version="1.1" id="_x32_" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 512 512">
                         <g>
@@ -75,8 +85,8 @@
                 </p>
             </div>
             <div class="iced"
-            @click="drink.type = 'iced'"
-            :class="drink.type == 'iced' ? 'item-type-active-iced' : null">
+            @click="order.type = 'iced'"
+            :class="order.type == 'iced' ? 'item-type-active-iced' : null">
                 <div class="icon">
                     <svg version="1.1" id="_x32_" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 512 512">
                         <g>
@@ -94,54 +104,147 @@
             </div>
         </div>
         <hr noshade>
+        <p class="label">
+            <span>For Shop or To Go / 注文形態</span>
+        </p>
         <div class="item-for">
             <div class="here"
-            @click="drink.for = 'here'"
-            :class="drink.for == 'here' ? 'item-for-active' : null">
+            @click="order.for = 'here'"
+            :class="order.for == 'here' ? 'item-for-active' : null">
                 <p class="text">
                     <span>For Here / 店内</span>
                 </p>
             </div>
             <div class="togo"
-            @click="drink.for = 'togo'"
-            :class="drink.for == 'togo' ? 'item-for-active' : null">
+            @click="order.for = 'togo'"
+            :class="order.for == 'togo' ? 'item-for-active' : null">
                 <p class="text">
                     <span>TakeOut / 持ち帰り</span>
                 </p>
             </div>
+        </div>
+        <hr noshade>
+        <p class="label">
+            <span>Topping / トッピング</span>
+        </p>
+        <div class="item-topping">
+            <div class="topping"
+            v-for="atopping in topping"
+            :key="atopping.id"
+            @click="order.topping.includes(atopping) ? order.topping.splice(order.topping.indexOf(atopping), 1) : order.topping.push(atopping)">
+                <div class="topping-box"
+                :class="order.topping.includes(atopping) ? 'item-topping-active' : null">
+                    <div class="icon">
+                        <svg x="0px" y="0px" viewBox="0 0 512 512">
+                            <g>
+                                <path class="st0" d="M476.188,24.146c-6.748-3.504-60.728,38.022-185.304,67.086C230.347,105.355,62.5,153.527,65.286,392.815
+                                    L0,431.218l20.338,35.598c63.073-40.692,236.014-120.042,409.766-323.621c0,0-26.875,134.419-334.096,311.056
+                                    c103.685,53.758,249.604,53.758,360.979-76.806C568.346,246.888,476.188,24.146,476.188,24.146z"></path>
+                            </g>
+                        </svg>
+                    </div>
+                </div>
+                <p class="text">
+                    <span>{{ atopping.name_ja }}</span>
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="item-modalview">
+        <div class="item-image">
+            <img src="~/static/image/sample/coffee.jpg" alt="">
+        </div>
+        <div class="item-data">
+            <p class="name">
+                <span>{{ order.name }}</span>
+            </p>
+            <p class="price">
+                <span>{{ '¥' + order.price }}</span>
+            </p>
+            <button class="addButton" @click="addStoreList"></button>
         </div>
     </div>
 </section>
 </template>
 
 <script>
-// import { moldingCrumbs } from '~/plugins/breadcrumbs.js';
-import Menu from '~/components/common/Menu.vue';
-// import BreadcrumbList from '~/components/common/BreadCrumbList';
+import { mapMutations } from 'vuex';
+import firebase from '~/plugins/firebase.js';
+const db = firebase.firestore();
 export default {
-    components: {
-        Menu,
-        // BreadcrumbList,
-    },
     watch: {
-        drink: {
-            handler: function(value){
-                console.log(value);
+        order: {
+            handler: function(value){ 
+                var cost = this.item.price;
+                cost += this.item.size[this.order.size];
+                for (let i = 0; i < value.topping.length; i++) cost += value.topping[i].price;
+                this.order.price = cost;
             },
-            deep: true
+            deep: true,
         }
+    },
+    methods: {
+        addStoreList: function(){
+            const ob = Object();
+            ob.id = this.order.id;
+            ob.for = this.order.for;
+            ob.name = this.order.name;
+            ob.size = this.order.size;
+            ob.type = this.order.type;
+            ob.price = this.order.price;
+            ob.topping = this.order.topping.concat();
+            this.$store.commit('orderlist/addItem', ob);
+        },
+        ...mapMutations({
+            pushButton: 'orderist/addItem',
+        }),
+    },
+    mounted: function(){
+        this.order.name = this.item.name_ja;
     },
     data: function(){ 
         return{
             // crumbs: moldingCrumbs(this.$route),
-            drink: {
+            order: {
                 id: '',
-                name: 'カフェラテ',
+                name: '',
                 size: 'small',
                 type: 'hot',
                 for: 'here',
+                price: 0,
                 topping: [],
             },
+            shop: '',
+            item: '',
+            topping: [],
+        }
+    },
+    asyncData: async function(query){
+        var shopData = '';
+        var itemData = '';
+        var toppingData = [];
+        await db.collection('shop').doc(query.params.shop).get().then(function(shop){
+            shopData = shop.data();
+        }).catch(console.error);
+        await db.collection('shop').doc(query.params.shop).collection('menu_item').get().then(function(i){
+            i.forEach((doc) => {
+                const item = doc.data();
+                item.itemId = doc.id;
+                if (item.itemId == query.params.item) {
+                    itemData = item;
+                }
+            });
+        }).catch(console.error);
+        await db.collection('shop').doc(query.params.shop).collection('menu_topping').get().then(function(querySnapshot){
+            querySnapshot.forEach((doc) => {
+                const atopping = doc.data();
+                toppingData.push(atopping);
+            });
+        }).catch(console.error);
+        return {
+            shop: shopData,
+            item: itemData,
+            topping: toppingData.concat(),
         }
     },
 }
@@ -160,7 +263,7 @@ div.item-info{
     margin-bottom: 32px;
     padding-left: 16px;
     padding-right: 16px;
-    width: calc(100% - 56px);
+    width: calc(100% - 88px);
 }
 hr{
     width: calc(100% - 32px);
@@ -171,8 +274,18 @@ hr{
     position: relative;
 }
 div.item-details{
-    div.item-size{
+    padding-bottom: 160px;
+    p.label{
         padding-top: 32px;
+        padding-left: 16px;
+        span{
+            color: #2a2a2a;
+            font-weight: bold;
+            font-size: 16px;    
+        }
+    }
+    div.item-size{
+        padding-top: 12px;
         padding-bottom: 32px;
         padding-left: 16px;
         padding-right: 16px;
@@ -246,7 +359,7 @@ div.item-details{
         }
     }
     div.item-type{
-        padding-top: 32px;
+        padding-top: 12px;
         padding-bottom: 32px;
         padding-left: 16px;
         padding-right: 16px;
@@ -311,7 +424,7 @@ div.item-details{
         }
     }
     div.item-for{
-        padding-top: 32px;
+        padding-top: 12px;
         padding-bottom: 32px;
         padding-left: 16px;
         padding-right: 16px;
@@ -352,6 +465,188 @@ div.item-details{
                 span{
                     color: #fff;
                 }
+            }
+        }
+    }
+    div.item-topping{
+        display: flex;
+        flex-flow: row wrap;
+        justify-content: space-between;
+        align-items: flex-start;
+        align-content: flex-start;
+        @media (min-width: 414px) {
+            display: block;
+        }
+        &::after{
+            content: '';
+            position: relative;
+            width: 100px;
+        }
+        padding-top: 12px;
+        padding-bottom: 32px;
+        padding-left: 16px;
+        padding-right: 16px;
+        &::-webkit-scrollbar{
+            display: none;
+        }
+        div.topping{
+            margin-bottom: 16px;
+            @media (min-width: 414px) {
+                display: inline-block;
+                vertical-align: top;
+                margin-right: 24px;
+            }
+            div.topping-box{
+                margin-bottom: 8px;
+                position: relative;
+                width: 100px;
+                height: 100px;
+                @media (max-width: 320px) {
+                    width: 132px;
+                    height: 132px;
+                }
+                @media (max-width: 300px) {
+                    width: 116px;
+                    height: 116px;
+                }
+                border-radius: 20px;
+                background: #fff;
+                filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
+                div.icon{
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                    svg{
+                        fill: #2a2a2a;
+                        width: 100%;
+                        height: 100%;
+                        transform: scale(0.8);
+                        object-fit: contain;
+                        mix-blend-mode: difference;
+                        background-blend-mode: difference;
+                    }
+                }
+            }
+            p.text{
+                position: relative;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 100px;
+                text-align: center;
+                line-height: 16px;
+                span{
+                    color: #2a2a2a;
+                    font-weight: bold;
+                    font-size: 12px;
+                }
+            }
+            div.item-topping-active{
+                background: #2a2a2a;
+                div.icon{
+                    svg{
+                        fill: #fff;
+                    }
+                }
+                p.text{
+                    span{
+                        color: #fff;
+                    }
+                }
+            }
+        }
+    }
+}
+div.item-modalview{
+    width: 100vw;
+    height: 160px;
+    position: fixed;
+    top: 100vh;
+    transform: translateY(-100%);
+    border-radius: 16px 16px 0 0;
+    background: #2A2A2A;
+    filter: drop-shadow(0 -4px 8px rgba(0, 0, 0, 0.2));
+    z-index: 1;
+    div.item-image{
+        display: inline-block;
+        margin-top: 13px;
+        margin-left: 13px;
+        margin-right: 8px;
+        width: 108px;
+        height: calc(100% - 26px);
+        border-radius: 8px;
+        overflow: hidden;
+        img{
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    }
+    div.item-data{
+        display: inline-block;
+        margin-top: 13px;
+        padding-right: 16px;
+        vertical-align: top;
+        width: calc(100% - 145px);
+        position: absolute;
+        p.name{
+            margin-bottom: 48px;
+            height: 52px;
+            border-bottom: solid 1px #3E3E3E;
+            overflow: hidden;
+            line-height: 24px;
+            span{
+                color: #fff;
+                font-size: 16px;
+                font-weight: bold;
+            }
+            @media (min-width: 1025px) {
+                line-height: 40px;
+                span{
+                    font-size: 24px;
+                }
+            }
+        }
+        p.price{
+            line-height: 24px;
+            span{
+                color: #fff;
+                font-size: 36px;
+                font-weight: bold;
+            }
+        }
+        button.addButton{
+            position: absolute;
+            top: 100%;
+            left: calc(100% - 16px);
+            transform: translate(-100%, -100%);
+            width: 56px;
+            height: 56px;
+            background: #fff;
+            border-radius: 8px;
+            appearance: none;
+            border: 0;
+            &:focus{ outline: none; }
+            &:active{ opacity: 0.4; }
+            &::before{
+                content: '';
+                position: absolute;
+                top: 50%;
+                left: 0;
+                transform: translateY(-50%) scale(0.4);
+                width: 100%;
+                height: 8px;
+                background: #3e3e3e;
+            }
+            &::after{
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 50%;
+                transform: translateX(-50%) scale(0.4);
+                width: 8px;
+                height: 100%;
+                background: #3e3e3e;
             }
         }
     }

@@ -1,7 +1,7 @@
 <template>
   <nuxt-link
   class="menu"
-  to="/">
+  to="/orderlist">
   <div class="menu-image-box">
       <img src="~/static/svg/payment.svg" alt="menu-icon">
   </div>

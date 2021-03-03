@@ -2,14 +2,14 @@
     <nuxt-link 
     class="card-shop"
     :to="{
-        name: 'shop-id',
-        path: '/shop/:id',
+        name: 'shop',
+        path: '/:shop/',
         params: {
-            id: 'スターバックス仙台中央通店',
+            shop: id,
         },
     }">
         <p class="name">
-            <span>タイトル</span>
+            <span>{{ name }}</span>
         </p>
         <div class="image-list">
             <div 
@@ -34,7 +34,7 @@
                     <img src="~/static/svg/seats.svg" alt="seats-image">
                 </div>
                 <p class="label">
-                    <span>空席あり</span>
+                    <span>{{ crowdStatus == 'crowded' ? '空席わずか' : '空席あり' }}</span>
                 </p>
             </div>
             <div class="price-drink">
@@ -59,7 +59,7 @@
 
 <script>
 export default {
-    props: ['url'],
+    props: ['id', 'name', 'crowdStatus'],
 }
 </script>
 

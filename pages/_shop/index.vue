@@ -1,13 +1,9 @@
 <template>
 <section>
-    <Menu/>
     <div class="thumbnail">
       <img src="~/static/image/sample/starbucks.jpg" alt="shop-thumbnail">
     </div>
     <div class="shop-info">
-      <BreadcrumbList
-      :crumbs="crumbs"
-      />
       <p class="shop-title">
         <span>スターバックス仙台中央通店</span>
       </p>
@@ -25,7 +21,7 @@
                   <img src="~/static/svg/seats.svg" alt="seats-image">
               </div>
               <p class="label">
-                  <span>空席あり</span>
+                  <span>{{ shop.crowdStatus == 'crowded' ? '空席わずか' : '空席あり' }}</span>
               </p>
           </div>
           <div class="price-drink">
@@ -161,30 +157,35 @@
           </svg>
         </div>
         <p class="text">
-          <span>Drink / 飲み物</span>
+          <span>Goods / 販売品</span>
         </p>
       </div>
     </div>
     <hr noshade>
+    <div class="shop-ordermenu-empty"
+    v-if="!items.length">
+      <p>
+        <span>商品が見つかりませんでした</span>
+      </p>
+    </div>
     <div class="shop-ordermenus">
       <nuxt-link class="ordermenu"
+      v-for="order in items"
+      :key="order.id"
       :to="{
-          name: 'shop-items-id',
-          path: '/shop/:items/:id',
+          name: 'shop-item',
+          path: '/shop/:item/',
           params: {
-              id: 'スターバックス仙台中央通店',
-              items: 'スターバックス仙台中央通店',
+              item: order.itemId,
           },
       }"
-      v-for="order in 5"
-      :key="order.id"
       >
         <div class="ordermenu-image">
           <img src="~/static/image/sample/coffee.jpg" alt="menu">
         </div>
         <p class="ordermenu-title">
-          <span>カフェラテ</span><br>
-          <small>CafeLatte</small>
+          <span>{{ order.name_ja }}</span><br>
+          <small>{{ order.name_en }}</small>
         </p>
       </nuxt-link>
     </div>
@@ -192,25 +193,53 @@
 </template>
 
 <script>
-import { moldingCrumbs } from '~/plugins/breadcrumbs.js';
-import Menu from '~/components/common/Menu.vue';
-import BreadcrumbList from '~/components/common/BreadcrumbList.vue';
+import firebase from '~/plugins/firebase.js';
+const db = firebase.firestore();
 export default {
-    components: {
-      Menu,
-      BreadcrumbList,
-    },
-    data: function(){ 
-      return{
-          ordertype: 'drink',
-          crumbs: moldingCrumbs(this.$route)
-      }
-    },
-    watch: {
-      ordertype: function(value){
-        console.log(value);
-      }
-    },
+  watch: {
+    ordertype: async function(value){
+      const itemData = [];
+      const menu_type = 'menu_' + value;
+      const shop_id = this.$route.params.shop;
+      await db.collection('shop').doc(shop_id).collection('menu_item').get().then(function(querySnapshot){
+        querySnapshot.forEach((doc) => {
+          const shop = doc.data();
+          if (shop.category == value) {
+            shop.itemId = doc.id;
+            itemData.push(shop);
+          }
+        });
+      }).catch(console.error);
+      this.items = itemData.concat();
+    }
+  },
+  data: function(){ 
+    return{
+        ordertype: 'drink',
+        shop: '',
+        items: '',
+    }
+  },
+  asyncData: async function(query){
+    var shopData = '';
+    var itemsData = [];
+    await db.collection('shop').doc(query.params.shop).get().then(function(anshop){
+      shopData = anshop.data();
+    }).catch(console.error);
+    await db.collection('shop').doc(query.params.shop).collection('menu_item').get().then(function(querySnapshot){
+      querySnapshot.forEach((doc) => {
+        const shop = doc.data();
+        if (shop.category == 'drink') {
+          shop.itemId = doc.id;
+          itemsData.push(shop);
+        }
+      });
+    }).catch(console.error);
+    return {
+      shop: shopData,
+      items: itemsData.concat(),
+    }
+  },
 }
 </script>
 
@@ -221,10 +250,6 @@ $font-ja: "Yu Gothic Medium", "游ゴシック Medium", '游ゴシック', "游�
 }
 section{
     height: 100vh;
-}
-a.menu{
-  margin-top: 48px;
-  top: 16px;
 }
 div.thumbnail{
     margin-bottom: 16px;
@@ -317,7 +342,7 @@ div.shop-ordertypes{
     height: 120px;
     border-radius: 20px;
     background: #fff;
-    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
     div.icon{
       width: 32px;
       height: 32px;
@@ -375,11 +400,31 @@ hr{
   position: relative;
   margin-bottom: 24px;
 }
+div.shop-ordermenu-empty{
+  padding-left: 16px;
+  padding-right: 16px;
+  height: 160px;
+  position: relative;
+  p{
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #bbb;
+    text-align: center;
+    span{
+      font-size: 16px;
+      font-weight: bold;
+    }
+  }
+}
 div.shop-ordermenus{
   padding-left: 16px;
   padding-right: 16px;
   a.ordermenu{
     display: inline-block;
+    vertical-align: top;
+    width: 42.67vw;
     text-decoration: none;
     color: #2a2a2a;
     @media (max-width: 320px) {
@@ -396,7 +441,6 @@ div.shop-ordermenus{
       margin-right: 24px;
     }
     div.ordermenu-image{
-      width: 42.67vw;
       height: 53.33vw;
       max-width: 320px;
       max-height: 400px;
@@ -417,13 +461,18 @@ div.shop-ordermenus{
       margin-bottom: 32px;
       width: 100%;
       text-align: center;
+        line-height: 20px;
       span{
         font-weight: bold;
         font-size: 16px;
       }
       small{
+        display: block;
+        margin-top: 4px;
+        color: #777;
         font-weight: lighter;
         font-size: 10px;
+        line-height: 12px;
       }
     }
   }

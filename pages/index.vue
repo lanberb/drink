@@ -1,6 +1,5 @@
 <template>
   <section>
-    <Menu/>
     <div class="head">
       <h2>おかえりなさい</h2>
       <h2>John Doe</h2>
@@ -17,9 +16,11 @@
       </div>
       <div class="list-shop">
         <CardShop
-        v-for="url in 3"
-        :key="url.id"
-        :url="'/'"
+        v-for="shop in shopList"
+        :key="shop.id"
+        :id="shop.shopId"
+        :name="shop.name_ja"
+        :crowdStatus="shop.crowdStatus"
         />
       </div>
     </div>
@@ -27,14 +28,12 @@
 </template>
 
 <script>
-import axios from 'axios';
-import Menu from '~/components/common/Menu.vue';
+import firebase from '~/plugins/firebase.js';
 import Tag from '~/components/index/TagShop.vue';
 import CardShop from '/components/index/CardShop.vue';
 
 export default {
   components: {
-    Menu,
     Tag,
     CardShop,
   },
@@ -44,13 +43,23 @@ export default {
       params: {
         recommendTag: {},
       },
+      shopList: [],
     }
   },
+  mounted: function() {
+    // console.log(this.shopList)
+  },
   asyncData: async function(){
-    return axios.get('https://cryptic-ridge-63036.herokuapp.com/api/').then(response => {
-      // console.log(response);
+    const db = firebase.firestore();
+    const list = [];
+    return db.collection('shop').get().then(function(querySnapshot){
+      querySnapshot.forEach((doc) => {
+        const shop = doc.data();
+        shop.shopId = doc.id;
+        list.push(shop);
+      });
       return {
-        message: response.data
+        shopList: list.concat(),
       }
     }).catch(console.error);
   },
@@ -98,15 +107,6 @@ div.shop{
     }
   }
   div.list-shop{
-    &::before{
-      content: '';
-      position: absolute;
-      margin-top: 130px;
-      left: 0;
-      width: 100vw;
-      height: calc(100%);
-      background: #F2F2F2;
-    }
     a.card-shop{
       margin-bottom: 20px;
     }
