@@ -10,12 +10,12 @@
     </div>
     <hr noshade>
     <div class="item-details">
-        <p class="label">
+        <p class="label" v-if="item.category == 'drink'">
             <span>Size / サイズ</span>
         </p>
-        <div class="item-size">
+        <div class="item-size" v-if="item.category == 'drink'">
             <div class="small"
-            v-if="item.size.small != null"
+            v-if="item.size != null"
             @click="order.size = 'small'"
             :class="order.size == 'small' ? 'item-size-active' : null">
                 <div class="icon">
@@ -54,12 +54,24 @@
                 </p>
             </div>
         </div>
-        <hr noshade>
+        <hr noshade v-if="item.category == 'drink'">
         <p class="label">
+            <span>Number / 個数</span>
+        </p>
+        <div class="item-number">
+            <button class="subtract" :class="order.number <= 1 ? 'item-number-deactive' : null" @click="order.number--"></button>
+            <p>
+                <span>{{ order.number }}</span>
+            </p>
+            <button class="add" :class="order.number >= 9 ? 'item-number-deactive' : null" @click="order.number++"></button>
+        </div>
+        <hr noshade>
+        <p class="label" v-if="item.category == 'drink'">
             <span>Type / ドリンクタイプ</span>
         </p>
-        <div class="item-type">
+        <div class="item-type" v-if="item.category == 'drink'">
             <div class="hot"
+            v-if="item.type.includes('hot')"
             @click="order.type = 'hot'"
             :class="order.type == 'hot' ? 'item-type-active-hot' : null">
                 <div class="icon">
@@ -85,6 +97,7 @@
                 </p>
             </div>
             <div class="iced"
+            v-if="item.type.includes('iced')"
             @click="order.type = 'iced'"
             :class="order.type == 'iced' ? 'item-type-active-iced' : null">
                 <div class="icon">
@@ -103,7 +116,7 @@
                 </p>
             </div>
         </div>
-        <hr noshade>
+        <hr noshade v-if="item.category == 'drink'">
         <p class="label">
             <span>For Shop or To Go / 注文形態</span>
         </p>
@@ -123,11 +136,11 @@
                 </p>
             </div>
         </div>
-        <hr noshade>
-        <p class="label">
+        <hr noshade v-if="item.category == 'drink'">
+        <p class="label" v-if="topping.length">
             <span>Topping / トッピング</span>
         </p>
-        <div class="item-topping">
+        <div class="item-topping" v-if="topping.length">
             <div class="topping"
             v-for="atopping in topping"
             :key="atopping.id"
@@ -149,6 +162,7 @@
                 </p>
             </div>
         </div>
+        <Footer/>
     </div>
     <div class="item-modalview">
         <div class="item-image">
@@ -159,9 +173,9 @@
                 <span>{{ order.name }}</span>
             </p>
             <p class="price">
-                <span>{{ '¥' + order.price }}</span>
+                <span>{{ '¥' + order.sumPrice }}</span>
             </p>
-            <button class="addButton" @click="addStoreList"></button>
+            <button class="addButton" @click="addStore"></button>
         </div>
     </div>
 </section>
@@ -170,49 +184,73 @@
 <script>
 import { mapMutations } from 'vuex';
 import firebase from '~/plugins/firebase.js';
+import Footer from '~/components/common/Footer.vue';
 const db = firebase.firestore();
 export default {
+    components: {
+        Footer,
+    },
     watch: {
         order: {
             handler: function(value){ 
                 var cost = this.item.price;
                 cost += this.item.size[this.order.size];
                 for (let i = 0; i < value.topping.length; i++) cost += value.topping[i].price;
-                this.order.price = cost;
+                this.order.sumPrice = cost * this.order.number;
             },
             deep: true,
         }
     },
     methods: {
-        addStoreList: function(){
-            const ob = Object();
-            ob.id = this.order.id;
-            ob.for = this.order.for;
-            ob.name = this.order.name;
-            ob.size = this.order.size;
-            ob.type = this.order.type;
-            ob.price = this.order.price;
-            ob.topping = this.order.topping.concat();
-            this.$store.commit('orderlist/addItem', ob);
+        addStore: async function(){
+            const orderItem = Object();
+            orderItem.shop = await this.makeShopData();
+            orderItem.item = await this.makeOrderData();
+            this.$store.commit('orderlist/addItem', orderItem);
         },
-        ...mapMutations({
-            pushButton: 'orderist/addItem',
-        }),
+        makeShopData: function(){
+            const shopData = Object();
+            shopData.id = this.shop.id;
+            shopData.name = this.shop.name_ja;
+            shopData.tax = this.shop.tax;
+            return shopData;
+        },
+        makeOrderData: function(){
+            const itemData = Object();
+            itemData.id = this.order.id;
+            itemData.for = this.order.for;
+            itemData.name = this.order.name;
+            itemData.size = this.order.size;
+            itemData.type = this.order.type;
+            itemData.price = this.item.price;
+            itemData.number = this.order.number;
+            //配列のコピーにconcat()を使ってますが、これは正しいんでしょうか……
+            itemData.topping = this.order.topping.concat();
+            itemData.sumPrice = this.order.sumPrice;
+            return itemData;
+        },
     },
     mounted: function(){
+        this.order.id = this.item.id;
         this.order.name = this.item.name_ja;
+        if (this.item.category == 'drink') {
+            this.order.for = this.item.for[0];
+            this.order.type = this.item.type[0];
+        }
     },
     data: function(){ 
         return{
             // crumbs: moldingCrumbs(this.$route),
             order: {
                 id: '',
+                for: '',
                 name: '',
                 size: 'small',
-                type: 'hot',
-                for: 'here',
+                type: '',
                 price: 0,
+                number: 1,
                 topping: [],
+                sumPrice: 0,
             },
             shop: '',
             item: '',
@@ -224,13 +262,15 @@ export default {
         var itemData = '';
         var toppingData = [];
         await db.collection('shop').doc(query.params.shop).get().then(function(shop){
-            shopData = shop.data();
+            const data = shop.data();
+            data.id = shop.id;
+            shopData = data;
         }).catch(console.error);
         await db.collection('shop').doc(query.params.shop).collection('menu_item').get().then(function(i){
             i.forEach((doc) => {
                 const item = doc.data();
-                item.itemId = doc.id;
-                if (item.itemId == query.params.item) {
+                item.id = doc.id;
+                if (item.id == query.params.item) {
                     itemData = item;
                 }
             });
@@ -238,6 +278,7 @@ export default {
         await db.collection('shop').doc(query.params.shop).collection('menu_topping').get().then(function(querySnapshot){
             querySnapshot.forEach((doc) => {
                 const atopping = doc.data();
+                atopping.id = doc.id;
                 toppingData.push(atopping);
             });
         }).catch(console.error);
@@ -257,13 +298,12 @@ $font-ja: "Yu Gothic Medium", "游ゴシック Medium", '游ゴシック', "游�
 }
 section{
     padding-top: 64px;
-    height: 100vh;
 }
 div.item-info{
     margin-bottom: 32px;
     padding-left: 16px;
     padding-right: 16px;
-    width: calc(100% - 88px);
+    width: calc(100% - 88px - 20px);
 }
 hr{
     width: calc(100% - 32px);
@@ -355,6 +395,65 @@ div.item-details{
                 span{
                     color: #fff;
                 }
+            }
+        }
+    }
+    div.item-number{
+        padding-top: 12px;
+        padding-bottom: 32px;
+        padding-left: 16px;
+        padding-right: 16px;
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 12px;
+        max-width: 100%;
+        button{
+            width: 64px;
+            height: 64px;
+            border: 0;
+            border-radius: 8px;
+            background: #2A2A2A;
+            &:focus{ outline: none; }
+            &:active{ opacity: 0.4; }
+            &.subtract{
+                &::before{
+                    content: '';
+                    position: absolute;
+                    transform: translate(-50%, -50%);
+                    width: 24px;
+                    height: 4px;
+                    background: #fff;
+                }
+            }
+            &.add{
+                &::before{
+                    content: '';
+                    position: absolute;
+                    transform: translate(-50%, -50%);
+                    width: 24px;
+                    height: 4px;
+                    background: #fff;
+                }
+                &::after{
+                    content: '';
+                    position: absolute;
+                    transform: translate(-50%, -50%);
+                    width: 4px;
+                    height: 24px;
+                    background: #fff;
+                }
+            }
+            &.item-number-deactive{
+                pointer-events: none;
+                opacity: 0.4;
+            }
+        }
+        p{
+            line-height: 64px;
+            span{
+                color: #2a2a2a;
+                font-size: 32px;
+                font-weight: bold;
             }
         }
     }

@@ -23,6 +23,7 @@
         :crowdStatus="shop.crowdStatus"
         />
       </div>
+      <Footer/>
     </div>
   </section>
 </template>
@@ -31,11 +32,13 @@
 import firebase from '~/plugins/firebase.js';
 import Tag from '~/components/index/TagShop.vue';
 import CardShop from '/components/index/CardShop.vue';
+import Footer from '~/components/common/Footer.vue';
 
 export default {
   components: {
     Tag,
     CardShop,
+    Footer,
   },
   data: function(){ 
     return{
@@ -75,7 +78,6 @@ section{
   padding-top: 64px;
   padding-left: 16px;
   padding-right: 16px;
-  height: 100vh;
 }
 div.head{
   position: relative;

@@ -2,9 +2,15 @@
   <nuxt-link
   class="menu"
   to="/orderlist">
-  <div class="menu-image-box">
-      <img src="~/static/svg/payment.svg" alt="menu-icon">
-  </div>
+    <div class="menu-badge"
+    v-if="$store.state.orderlist.items.length != 0">
+      <p>
+        <span>{{ $store.state.orderlist.items.length }}</span>
+      </p>
+    </div>
+    <div class="menu-image-box">
+        <img src="~/static/svg/payment.svg" alt="menu-icon">
+    </div>
   </nuxt-link>
 </template>
 
@@ -25,6 +31,23 @@ a.menu{
   background: #2a2a2a;
   border-radius: 8px;
   z-index: 1;
+  div.menu-badge{
+    position: absolute;
+    top: -8px;
+    left: -8px;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: orangered;
+    p{
+      text-align: center;
+      span{
+        color: #fff;
+        font-size: 16px;
+        font-weight: bold;
+      }
+    }
+  }
   div.menu-image-box{
     width: 24px;
     height: 24px;

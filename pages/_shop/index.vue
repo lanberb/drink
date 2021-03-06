@@ -189,13 +189,18 @@
         </p>
       </nuxt-link>
     </div>
+    <Footer/>
 </section>
 </template>
 
 <script>
 import firebase from '~/plugins/firebase.js';
+import Footer from '~/components/common/Footer.vue';
 const db = firebase.firestore();
 export default {
+  components: {
+    Footer,
+  },
   watch: {
     ordertype: async function(value){
       const itemData = [];
@@ -248,9 +253,6 @@ $font-ja: "Yu Gothic Medium", "游ゴシック Medium", '游ゴシック', "游�
 *{
   font-family: $font-ja;
 }
-section{
-    height: 100vh;
-}
 div.thumbnail{
     margin-bottom: 16px;
     width: 100vw;
@@ -278,50 +280,50 @@ div.shop-info{
     }
   }
   div.icon{
-      margin-right: 4px;
-      position: relative;
-      width: 16px;
-      height: 16px;
-      img{
-          position: absolute;
-          width: 100%;
-          height: 100%;
-          object-fit: contain;
-      }
+    margin-right: 4px;
+    position: relative;
+    width: 16px;
+    height: 16px;
+    img{
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
   }
   div.access{
-      display: flex;
-      margin-bottom: 12px;
+    display: flex;
+    margin-bottom: 12px;
+    width: 100%;
+    p.label{
+      position: relative;
       width: 100%;
-      p.label{
-          position: relative;
-          width: 100%;
-          span{
-              position: absolute;
-              font-size: 12px;
-              font-weight: lighter;
-              line-height: 16px;
-          }
+      span{
+        position: absolute;
+        font-size: 12px;
+        font-weight: lighter;
+        line-height: 16px;
       }
+    }
   }
   div.info{
-      display: flex;
-      justify-content: space-between;
-      width: 100%;
-      div.seats-available, div.price-drink, div.price-meal{
-          display: flex;
-          width: 28%;
-          p.label{
-              position: relative;
-              width: 100%;
-              span{
-                  position: absolute;
-                  font-size: 12px;
-                  font-weight: lighter;
-                  line-height: 16px;
-              }
-          }
-      }
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    div.seats-available, div.price-drink, div.price-meal{
+        display: flex;
+        width: 28%;
+        p.label{
+            position: relative;
+            width: 100%;
+            span{
+                position: absolute;
+                font-size: 12px;
+                font-weight: lighter;
+                line-height: 16px;
+            }
+        }
+    }
   }
 }
 div.shop-ordertypes{
@@ -425,28 +427,27 @@ div.shop-ordermenus{
     display: inline-block;
     vertical-align: top;
     width: 42.67vw;
+    max-width: 320px;
     text-decoration: none;
     color: #2a2a2a;
     @media (max-width: 320px) {
-      &:nth-child(2n - 1){
-        margin-right: 24px;
-      }
+      width: 100%;
     }
-    @media (min-width: 320px) and (max-width: 1024px) {
+    @media (max-width: 1024px) {
       &:nth-child(2n - 1){
-        margin-right: 6.13vw;
+        margin-right: 16px;
       }
     }
     @media (min-width: 1024px){
       margin-right: 24px;
     }
     div.ordermenu-image{
-      height: 53.33vw;
-      max-width: 320px;
-      max-height: 400px;
+      margin-right: 0;
       margin-bottom: 16px;
+      width: 100%;
+      height: 53.33vw;
       @media (max-width: 320px) {
-        width: 112px;
+        height: 240px;
       }
       border-radius: 8px;
       filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
@@ -458,10 +459,11 @@ div.shop-ordermenus{
       }
     }
     p.ordermenu-title{
+      margin-right: 0;
       margin-bottom: 32px;
       width: 100%;
       text-align: center;
-        line-height: 20px;
+      line-height: 20px;
       span{
         font-weight: bold;
         font-size: 16px;
