@@ -1,5 +1,8 @@
 <template>
 <section>
+    <div class="thumbnail">
+      <img src="~/static/image/sample/starbucks.jpg" alt="shop-thumbnail">
+    </div>
     <div class="item-info">
         <!-- <BreadcrumbList
         :crumbs="crumbs"
@@ -7,6 +10,14 @@
         <h2>
             <span>{{ item.name_ja }}</span>
         </h2>
+        <p class="price">
+            <span>{{ '¥' + order.sumPrice }}</span>
+        </p>
+        <button class="addButton" @click="addStore">
+            <p>
+                <span>Add Cart / 注文リストに追加する</span>
+            </p>
+        </button>
     </div>
     <hr noshade>
     <div class="item-details">
@@ -162,22 +173,8 @@
                 </p>
             </div>
         </div>
-        <Footer/>
     </div>
-    <div class="item-modalview">
-        <div class="item-image">
-            <img src="~/static/image/sample/coffee.jpg" alt="">
-        </div>
-        <div class="item-data">
-            <p class="name">
-                <span>{{ order.name }}</span>
-            </p>
-            <p class="price">
-                <span>{{ '¥' + order.sumPrice }}</span>
-            </p>
-            <button class="addButton" @click="addStore"></button>
-        </div>
-    </div>
+    <Footer/>
 </section>
 </template>
 
@@ -296,14 +293,69 @@ $font-ja: "Yu Gothic Medium", "游ゴシック Medium", '游ゴシック', "游�
 *{
   font-family: $font-ja;
 }
-section{
-    padding-top: 64px;
+div.thumbnail{
+    width: 100vw;
+    height: 250px;
+    position: relative;
+    img{
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
 }
 div.item-info{
-    margin-bottom: 32px;
-    padding-left: 16px;
-    padding-right: 16px;
-    width: calc(100% - 88px - 20px);
+    margin: 8px;
+    padding: 8px;
+    padding-top: 16px;
+    border-radius: 16px;
+    position: sticky;
+    top: 16px;
+    background: #fff;
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
+    z-index: 1;
+    h2{
+        margin-bottom: 16px;
+        width: 80%;
+        line-height: 32px;
+        span{
+            color: #2a2a2a;
+            font-size: 24px;
+        }
+        @media (max-width: 320px) {
+            line-height: 20px;
+            span{
+                font-size: 16px;
+            }
+        }
+    }
+    p.price{
+        margin-bottom: 16px;
+        line-height: 24px;
+        span{
+            color: #2a2a2a;
+            font-size: 24px;
+            font-weight: bold;
+        }
+    }
+    button.addButton{
+        appearance: none;
+        border: 0;
+        border-radius: 8px;
+        width: 100%;
+        height: 48px;
+        background: #2a2a2a;
+        filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
+        &:focus{ outline: none; }
+        &:active{ opacity: 0.4; }
+        p{
+            line-height: 100%;
+            span{
+                color: #fff;
+                font-size: 16px;
+                font-weight: bold;
+            }
+        }
+    }
 }
 hr{
     width: calc(100% - 32px);
@@ -314,7 +366,6 @@ hr{
     position: relative;
 }
 div.item-details{
-    padding-bottom: 160px;
     p.label{
         padding-top: 32px;
         padding-left: 16px;
@@ -399,13 +450,13 @@ div.item-details{
         }
     }
     div.item-number{
+        margin-bottom: 12px;
         padding-top: 12px;
         padding-bottom: 32px;
         padding-left: 16px;
         padding-right: 16px;
         display: flex;
         justify-content: space-between;
-        margin-bottom: 12px;
         max-width: 100%;
         button{
             width: 64px;
@@ -652,100 +703,6 @@ div.item-details{
                         color: #fff;
                     }
                 }
-            }
-        }
-    }
-}
-div.item-modalview{
-    width: 100vw;
-    height: 160px;
-    position: fixed;
-    top: 100vh;
-    transform: translateY(-100%);
-    border-radius: 16px 16px 0 0;
-    background: #2A2A2A;
-    filter: drop-shadow(0 -4px 8px rgba(0, 0, 0, 0.2));
-    z-index: 1;
-    div.item-image{
-        display: inline-block;
-        margin-top: 13px;
-        margin-left: 13px;
-        margin-right: 8px;
-        width: 108px;
-        height: calc(100% - 26px);
-        border-radius: 8px;
-        overflow: hidden;
-        img{
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-    }
-    div.item-data{
-        display: inline-block;
-        margin-top: 13px;
-        padding-right: 16px;
-        vertical-align: top;
-        width: calc(100% - 145px);
-        position: absolute;
-        p.name{
-            margin-bottom: 48px;
-            height: 52px;
-            border-bottom: solid 1px #3E3E3E;
-            overflow: hidden;
-            line-height: 24px;
-            span{
-                color: #fff;
-                font-size: 16px;
-                font-weight: bold;
-            }
-            @media (min-width: 1025px) {
-                line-height: 40px;
-                span{
-                    font-size: 24px;
-                }
-            }
-        }
-        p.price{
-            line-height: 24px;
-            span{
-                color: #fff;
-                font-size: 36px;
-                font-weight: bold;
-            }
-        }
-        button.addButton{
-            position: absolute;
-            top: 100%;
-            left: calc(100% - 16px);
-            transform: translate(-100%, -100%);
-            width: 56px;
-            height: 56px;
-            background: #fff;
-            border-radius: 8px;
-            appearance: none;
-            border: 0;
-            &:focus{ outline: none; }
-            &:active{ opacity: 0.4; }
-            &::before{
-                content: '';
-                position: absolute;
-                top: 50%;
-                left: 0;
-                transform: translateY(-50%) scale(0.4);
-                width: 100%;
-                height: 8px;
-                background: #3e3e3e;
-            }
-            &::after{
-                content: '';
-                position: absolute;
-                top: 0;
-                left: 50%;
-                transform: translateX(-50%) scale(0.4);
-                width: 8px;
-                height: 100%;
-                background: #3e3e3e;
             }
         }
     }

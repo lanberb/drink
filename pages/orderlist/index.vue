@@ -81,8 +81,8 @@ export default {
         return {
             shop: '',
             subTotal: this.$store.state.orderlist.items.map(i => i.sumPrice).reduce((ini, cur) => ini + cur, 0),
-            includeTax: Math.ceil(this.$store.state.orderlist.items.map(i => i.sumPrice).reduce((ini, cur) => ini + cur, 0) * (this.$store.state.orderlist.shop.tax - 1)),
-            total: Math.ceil(this.$store.state.orderlist.items.map(i => i.sumPrice).reduce((ini, cur) => ini + cur, 0) * this.$store.state.orderlist.shop.tax),
+            includeTax: Math.round(this.$store.state.orderlist.items.map(i => i.sumPrice).reduce((ini, cur) => ini + cur, 0) * (this.$store.state.orderlist.shop.tax - 1)),
+            total: Math.round(this.$store.state.orderlist.items.map(i => i.sumPrice).reduce((ini, cur) => ini + cur, 0) * this.$store.state.orderlist.shop.tax),
         }
     },
     fetch: async function(store, params) {
