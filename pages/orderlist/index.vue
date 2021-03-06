@@ -21,11 +21,19 @@
                     <span>{{ item.name }}</span>
                 </h4>
                 <p class="order-item-data">
-                    <span>{{'アイス / サイズ：S / 店内お召し上がり / 持ち帰り用カップ / 個数：' + item.number}}</span>
+                    <span>{{ '個数: ' + $store.state.orderlist.items[index].number + ', ' 
+                        + text.size[$store.state.orderlist.items[index].size] + 'サイズ, ' 
+                        + text.for[$store.state.orderlist.items[index].for] + ', ' 
+                        + text.type[$store.state.orderlist.items[index].type] + ', ' 
+                        + $store.state.orderlist.items[index].topping.map(i => i.name_ja).reduce((ini, cur) => ini + cur + ', ', '') 
+                    }}</span>
                 </p>
                 <p class="order-item-price">
                     <span>{{ '¥' + item.sumPrice }}</span>
                 </p>
+                <button class="order-item-remove" @click="reloadStore(index)">
+                    <img src="~/static/svg/dustbox.svg" alt="remove">
+                </button>
             </div>
         </div>
     </div>
@@ -77,12 +85,34 @@ export default {
     components: {
         Footer,
     },
+    methods: {
+        reloadStore: function(i){
+            this.$store.commit('orderlist/removeItem', i);
+            this.subTotal = this.$store.state.orderlist.items.map(i => i.sumPrice).reduce((ini, cur) => ini + cur, 0);
+            this.includeTax = Math.round(this.$store.state.orderlist.items.map(i => i.sumPrice).reduce((ini, cur) => ini + cur, 0) * (this.$store.state.orderlist.shop.tax - 1));
+            this.total = Math.round(this.$store.state.orderlist.items.map(i => i.sumPrice).reduce((ini, cur) => ini + cur, 0) * this.$store.state.orderlist.shop.tax);
+        },
+    },
     data: function(){
         return {
-            shop: '',
             subTotal: this.$store.state.orderlist.items.map(i => i.sumPrice).reduce((ini, cur) => ini + cur, 0),
             includeTax: Math.round(this.$store.state.orderlist.items.map(i => i.sumPrice).reduce((ini, cur) => ini + cur, 0) * (this.$store.state.orderlist.shop.tax - 1)),
             total: Math.round(this.$store.state.orderlist.items.map(i => i.sumPrice).reduce((ini, cur) => ini + cur, 0) * this.$store.state.orderlist.shop.tax),
+            text: {
+                size: {
+                    'small': 'S',
+                    'medium': 'M',
+                    'large': 'L',
+                },
+                for: {
+                    'here': '店内',
+                    'togo': 'お持ち帰り',
+                },
+                type: {
+                    'hot': 'ホット',
+                    'iced': 'アイス',
+                }
+            },
         }
     },
     fetch: async function(store, params) {
@@ -125,6 +155,9 @@ div.order-unit{
     background: #fff;
     border-radius: 16px;
     filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
+    h4{
+        margin-bottom: 8px;
+    }
     div.seats-available{
         margin-bottom: 16px;
         display: flex;
@@ -165,7 +198,6 @@ div.order-unit{
             height: 180px;
             display: inline-block;
             position: relative;
-            background: palevioletred;
             overflow: hidden;
             img{
                 width: 100%;
@@ -189,7 +221,7 @@ div.order-unit{
             }
             p.order-item-data{
                 margin-bottom: 12px;
-                line-height: 16px;
+                line-height: 12px;
                 span{
                     color: #2a2a2a;
                     font-size: 10px;
@@ -254,6 +286,26 @@ div.order-unit{
                     color: #2a2a2a;
                     font-size: 24px;
                     font-weight: bold;
+                }
+            }
+            button.order-item-remove{
+                width: 32px;
+                height: 32px;
+                border: solid 1px #2a2a2a;
+                border-radius: 8px;
+                position: absolute;
+                top: 100%;
+                left: 100%;
+                transform: translate(-100%, -100%);
+                background: #fff;
+                &:active{opacity: 0.4;}
+                &:focus{outline: none;}
+                img{
+                    width: 100%;
+                    height: 100%;
+                    object-fit: contain;
+                    transform: scale(0.8);
+                    fill: #2a2a2a
                 }
             }
         }
@@ -325,7 +377,7 @@ div.order-button{
 div.alert-modalview{
     width: 100vw;
     height: 100vh;
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     backdrop-filter: blur(8px);

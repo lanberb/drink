@@ -7,9 +7,12 @@
         <!-- <BreadcrumbList
         :crumbs="crumbs"
         /> -->
-        <h2>
+        <p class="name">
             <span>{{ item.name_ja }}</span>
-        </h2>
+        </p>
+        <p class="options">
+            <span>{{ options }}</span>
+        </p>
         <p class="price">
             <span>{{ '¥' + order.sumPrice }}</span>
         </p>
@@ -179,7 +182,6 @@
 </template>
 
 <script>
-import { mapMutations } from 'vuex';
 import firebase from '~/plugins/firebase.js';
 import Footer from '~/components/common/Footer.vue';
 const db = firebase.firestore();
@@ -190,13 +192,21 @@ export default {
     watch: {
         order: {
             handler: function(value){ 
+                // 商品価格の計算 => this.order.sumPriceに出力
                 var cost = this.item.price;
                 cost += this.item.size[this.order.size];
                 for (let i = 0; i < value.topping.length; i++) cost += value.topping[i].price;
                 this.order.sumPrice = cost * this.order.number;
+
+                // this.order内の変化からオプションをまとめたテキストを生成 => this.optionsに出力
+                this.options = '個数: ' + this.order.number + ', ' 
+                + this.text.size[this.order.size] + 'サイズ, ' 
+                + this.text.for[this.order.for] + ', ' 
+                + this.text.type[this.order.type] + ', ' 
+                + this.order.topping.map(i => i.name_ja).reduce((ini, cur) => ini + cur + ', ', '');
             },
             deep: true,
-        }
+        },
     },
     methods: {
         addStore: async function(){
@@ -227,7 +237,7 @@ export default {
             return itemData;
         },
     },
-    mounted: function(){
+    created: function(){
         this.order.id = this.item.id;
         this.order.name = this.item.name_ja;
         if (this.item.category == 'drink') {
@@ -237,10 +247,9 @@ export default {
     },
     data: function(){ 
         return{
-            // crumbs: moldingCrumbs(this.$route),
             order: {
                 id: '',
-                for: '',
+                for: 'here',
                 name: '',
                 size: 'small',
                 type: '',
@@ -252,6 +261,22 @@ export default {
             shop: '',
             item: '',
             topping: [],
+            options: '',
+            text: {
+                size: {
+                    'small': 'S',
+                    'medium': 'M',
+                    'large': 'L',
+                },
+                for: {
+                    'here': '店内',
+                    'togo': 'お持ち帰り',
+                },
+                type: {
+                    'hot': 'ホット',
+                    'iced': 'アイス',
+                }
+            },
         }
     },
     asyncData: async function(query){
@@ -313,13 +338,13 @@ div.item-info{
     background: #fff;
     filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
     z-index: 1;
-    h2{
-        margin-bottom: 16px;
-        width: 80%;
+    p.name{
+        width: calc(100% - 56px - 8px);
         line-height: 32px;
         span{
             color: #2a2a2a;
             font-size: 24px;
+            font-weight: bold;
         }
         @media (max-width: 320px) {
             line-height: 20px;
@@ -328,8 +353,21 @@ div.item-info{
             }
         }
     }
+    p.options{
+        margin-bottom: 8px;
+        width: calc(100% - 56px - 8px);
+        line-height: 16px;
+        span{
+            color: #2a2a2a;
+            font-size: 12px;
+            font-weight: lighter;
+        }
+    }
     p.price{
         margin-bottom: 16px;
+        padding-top: 16px;
+        border-top: solid 1px #e5e5e5;
+        width: calc(100% - 56px - 8px);
         line-height: 24px;
         span{
             color: #2a2a2a;

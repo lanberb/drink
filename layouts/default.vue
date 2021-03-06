@@ -19,6 +19,9 @@ export default {
   margin: 0;
   -webkit-font-smoothing: antialiased;
 }
+html{
+  background: #fff;
+}
 a.menu{
   margin-top: 48px;
   top: 16px;

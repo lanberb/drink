@@ -23,8 +23,8 @@
         :crowdStatus="shop.crowdStatus"
         />
       </div>
-      <Footer/>
     </div>
+    <Footer/>
   </section>
 </template>
 
@@ -114,5 +114,4 @@ div.shop{
     }
   }
 }
-
 </style>

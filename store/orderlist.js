@@ -1,6 +1,7 @@
 'use strict';
 export const state = () => ({
-  shop: {},
+  shop: {
+  },
   items: [],
 });
 export const mutations = {
@@ -25,5 +26,9 @@ export const mutations = {
     // }
     state.items.push(orderlist.item);
     // console.log(state);
+  },
+  removeItem: (state, i) => {
+    state.items.splice(i, 1);
+    if (state.items.length === 0) state.shop = new Object(); 
   },
 };
