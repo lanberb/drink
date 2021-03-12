@@ -68,9 +68,9 @@ $font-ja: "Yu Gothic Medium", "游ゴシック Medium", '游ゴシック', "游�
 a.card-shop{
     display: inline-block;
     padding: 20px;
+    border-radius: 16px;
     width: calc(100% - 40px);
     background: #fff;
-    border-radius: 16px;
     color: #2a2a2a;
     text-decoration: none;
     filter: drop-shadow( 0 4px 8px rgba(0, 0, 0, 0.1));
@@ -107,6 +107,7 @@ a.card-shop{
     }
     hr{
         margin-bottom: 12px;
+        border: solid 1px #E5E5E5;
     }
     div.icon{
         margin-right: 4px;

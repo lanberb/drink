@@ -136,6 +136,7 @@
         </p>
         <div class="item-for">
             <div class="here"
+            v-if="item.for.includes('here')"
             @click="order.for = 'here'"
             :class="order.for == 'here' ? 'item-for-active' : null">
                 <p class="text">
@@ -143,6 +144,7 @@
                 </p>
             </div>
             <div class="togo"
+            v-if="item.for.includes('togo')"
             @click="order.for = 'togo'"
             :class="order.for == 'togo' ? 'item-for-active' : null">
                 <p class="text">
@@ -202,7 +204,7 @@ export default {
                 this.options = '個数: ' + this.order.number + ', ' 
                 + this.text.size[this.order.size] + 'サイズ, ' 
                 + this.text.for[this.order.for] + ', ' 
-                + this.text.type[this.order.type] + ', ' 
+                + (!!this.order.type ? this.text.type[this.order.type] + ', ' : '')
                 + this.order.topping.map(i => i.name_ja).reduce((ini, cur) => ini + cur + ', ', '');
             },
             deep: true,
@@ -231,19 +233,20 @@ export default {
             itemData.type = this.order.type;
             itemData.price = this.item.price;
             itemData.number = this.order.number;
-            //配列のコピーにconcat()を使ってますが、これは正しいんでしょうか……
+            //配列のコピーにconcat()を使うのは正しいんでしょうか……
             itemData.topping = this.order.topping.concat();
             itemData.sumPrice = this.order.sumPrice;
             return itemData;
         },
     },
-    created: function(){
+    mounted: function(){
         this.order.id = this.item.id;
         this.order.name = this.item.name_ja;
+        this.order.for = this.item.for[0];
         if (this.item.category == 'drink') {
-            this.order.for = this.item.for[0];
             this.order.type = this.item.type[0];
         }
+        // if (!(!!firebase.auth().currentUser)) this.$router.push('/login');
     },
     data: function(){ 
         return{

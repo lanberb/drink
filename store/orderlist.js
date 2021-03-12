@@ -1,34 +1,52 @@
 'use strict';
+import firebase from '~/plugins/firebase';
+
 export const state = () => ({
-  shop: {
-  },
+  shop: {},
   items: [],
 });
-export const mutations = {
-  addNumber: (state, data) => {
-    const item = state.items[data.index];
-    item.number += data.number;
-    const priceTopping = item.topping.reduce((sum, el) => {
-      return sum + el
-    }, 0);
-    const priceNumber = priceNumber + item.number;
-    item.sumPrice = priceNumber;
+
+export const actions = {
+  order({ state, commit }, order) {
+    const now = new Date();
+    const s = now.getSeconds() + '';
+    const mi = now.getMinutes() + '';
+    const h = now.getHours() + '';
+    const d = now.getDate() + '';
+    const mo = (now.getMonth() + 1)  + '';
+    const y = now.getFullYear() + '';
+    const fullDate = y + (mo > 9 ? mo : '0' + mo) + d + (h > 9 ? h : '0' + h) + (mi > 9 ? mi : '0' + mi) + (s > 9 ? s : '0' + s);
+    // 秒まで取得 y + (mo > 9 ? mo : '0' + mo) + d + (h > 9 ? h : '0' + h) + mi + (s > 9 ? s : '0' + s);
+    // 秒から時間まで取得 (h > 9 ? h : '0' + h) + mi + (s > 9 ? s : '0' + s);
+    // 日付まで取得 y + (mo > 9 ? mo : '0' + mo) + d;
+
+    // 店舗の注文リストに追加
+    firebase.firestore().collection('shop').doc(state.shop.id).collection('order_list').doc(fullDate).set(order).then(() => {
+      commit('clearItem');
+    }).catch((error) => {
+      alert('注文にエラーが発生しました。再度ご試行ください。');
+      console.error("Error writing document: ", error);
+    });
+
+    // ユーザアカウントの注文履歴に追加
+    firebase.firestore().collection('user').doc(order.user.uid).collection('order_history').doc(fullDate).set(order).catch((error) => {
+      alert('注文にエラーが発生しました。再度ご試行ください。');
+      console.error("Error writing document: ", error);
+    });
   },
+}
+
+export const mutations = {
   addItem: (state, orderlist) => {
     Object.assign(state.shop, orderlist.shop);
-    // // if (state.items.map(item => item.id).includes(orderList.item.id)) {
-    // for (let i = 0; i < state.items.length; i++) {
-    //   console.log(state.items[i], orderList.item);
-    //   console.log(Object.is(state.items[i], orderList.item));
-    //   if (Object.is(state.items[i], orderList.item)) {
-    //     console.log('商品がかぶってますわ')
-    //   }
-    // }
     state.items.push(orderlist.item);
-    // console.log(state);
   },
   removeItem: (state, i) => {
     state.items.splice(i, 1);
     if (state.items.length === 0) state.shop = new Object(); 
+  },
+  clearItem: (state) => {
+    state.items.splice(0);
+    state.shop = new Object(); 
   },
 };

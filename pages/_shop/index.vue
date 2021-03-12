@@ -16,14 +16,6 @@
           </p>
       </div>
       <div class="info">
-          <div class="seats-available">
-              <div class="icon">
-                  <img src="~/static/svg/seats.svg" alt="seats-image">
-              </div>
-              <p class="label">
-                  <span>{{ shop.crowdStatus == 'crowded' ? '空席わずか' : '空席あり' }}</span>
-              </p>
-          </div>
           <div class="price-drink">
               <div class="icon">
                   <img src="~/static/svg/coffee.svg" alt="drink-image">
@@ -224,6 +216,9 @@ export default {
         shop: '',
         items: '',
     }
+  },
+  mounted: function() {
+    if (!(!!firebase.auth().currentUser)) this.$router.push('/login');
   },
   asyncData: async function(query){
     var shopData = '';

@@ -1,14 +1,14 @@
 export default {
   // Global page headers (https://go.nuxtjs.dev/config-head)
   head: {
-    title: 'drink',
+    title: 'Drink!',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       { hid: 'description', name: 'description', content: '' }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+      { rel: 'icon', type: 'image/x-icon', href: '/favicon.png' }
     ]
   },
 
@@ -18,12 +18,12 @@ export default {
 
   // Plugins to run before rendering page (https://go.nuxtjs.dev/config-plugins)
   plugins: [
-    '~/plugins/firebase.js',
+    { src: '~/plugins/firebase.js', ssr: false },
   ],
 
-  serverMiddleware: [
-    { path: "/api/", handler: "~/api/" },
-  ],
+  // serverMiddleware: [
+  //   { path: "/api/", handler: "~/api/" },
+  // ],
 
   // Auto import components (https://go.nuxtjs.dev/config-components)
   components: true,
@@ -34,8 +34,20 @@ export default {
 
   // Modules (https://go.nuxtjs.dev/config-modules)
   modules: [
+    'nuxt-webfontloader',
+    '@nuxtjs/dotenv',
     '@nuxtjs/axios',
   ],
+  webfontloader: {
+    custom: {
+      families: [
+        'Oleo Script',
+      ],
+      urls: [
+        "https://fonts.googleapis.com/css2?family=Oleo+Script:wght@400&display=swap&text=Drink!"
+      ]
+    }
+  },
   // Build Configuration (https://go.nuxtjs.dev/config-build)
   build: {
   }

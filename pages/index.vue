@@ -2,7 +2,7 @@
   <section>
     <div class="head">
       <h2>おかえりなさい</h2>
-      <h2>John Doe</h2>
+      <h2>{{ name }} さん</h2>
     </div>
     <hr noshade>
     <div class="shop">
@@ -42,7 +42,7 @@ export default {
   },
   data: function(){ 
     return{
-      message: '',
+      name: !!firebase.auth().currentUser ? firebase.auth().currentUser.displayName : '',
       params: {
         recommendTag: {},
       },
@@ -50,17 +50,23 @@ export default {
     }
   },
   mounted: function() {
-    // console.log(this.shopList)
+    if (!(!!firebase.auth().currentUser)) this.$router.push('/auth');
   },
-  asyncData: async function(){
+  asyncData: async function(store){
     const db = firebase.firestore();
-    const list = [];
+    var list = [];
     return db.collection('shop').get().then(function(querySnapshot){
       querySnapshot.forEach((doc) => {
         const shop = doc.data();
         shop.shopId = doc.id;
         list.push(shop);
       });
+      if (!!store.store.state.orderlist.shop.id) {
+        const index = list.map(i => i.id).indexOf(store.store.state.orderlist.shop.shopId);
+        const el = list[index];
+        list.splice(0);
+        list.push(el);
+      }
       return {
         shopList: list.concat(),
       }
@@ -76,22 +82,31 @@ $font-ja: "Yu Gothic Medium", "游ゴシック Medium", '游ゴシック', "游�
 }
 section{
   padding-top: 64px;
-  padding-left: 16px;
-  padding-right: 16px;
+}
+a.menu{
+  display: none;
 }
 div.head{
-  position: relative;
   margin-bottom: 32px;
+  padding-left: 16px;
+  padding-right: 16px;
+  position: relative;
+  color: #2a2a2a;
 }
 hr{
   display: block;
+  margin-bottom: 32px;
   border: solid 1px #E5E5E5;
+  width: calc(100% - 32px);
   position: relative;
-  margin-bottom: 24px;
+  left: 16px;
 }
 div.shop{
+  padding-left: 16px;
+  padding-right: 16px;
   p:first-child{
     margin-bottom: 16px;
+    color: #2a2a2a;
     font-weight: bold;
   }
   div.list-tag{

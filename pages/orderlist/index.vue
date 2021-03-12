@@ -24,7 +24,7 @@
                     <span>{{ '個数: ' + $store.state.orderlist.items[index].number + ', ' 
                         + text.size[$store.state.orderlist.items[index].size] + 'サイズ, ' 
                         + text.for[$store.state.orderlist.items[index].for] + ', ' 
-                        + text.type[$store.state.orderlist.items[index].type] + ', ' 
+                        + (!!$store.state.orderlist.items[index].type ? text.type[$store.state.orderlist.items[index].type] + ', ' : '')
                         + $store.state.orderlist.items[index].topping.map(i => i.name_ja).reduce((ini, cur) => ini + cur + ', ', '') 
                     }}</span>
                 </p>
@@ -32,25 +32,51 @@
                     <span>{{ '¥' + item.sumPrice }}</span>
                 </p>
                 <button class="order-item-remove" @click="reloadStore(index)">
-                    <img src="~/static/svg/dustbox.svg" alt="remove">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 18">
+                        <path d="M1,16a2,2,0,0,0,2,2h8a2,2,0,0,0,2-2V4H1ZM3.46,8.88,4.87,7.47,7,9.59,9.12,7.47l1.41,1.41L8.41,11l2.12,2.12L9.12,14.53,7,12.41,4.88,14.53,3.47,13.12,5.59,11ZM10.5,1l-1-1h-5l-1,1H0V3H14V1Z" style="fill: #2a2a2a"/>
+                    </svg>
                 </button>
             </div>
         </div>
+    </div>
+    <hr noshade>
+    <div class="order-quantity">
+        <p>
+            <span>Q'ty / 商品数</span>
+        </p>
+        <p class="order-price">
+            <span>{{ quantity + '' }}</span>
+        </p>
+    </div>
+    <div class="order-subtotal">
+        <p>
+            <span>Sub / 小計</span>
+        </p>
+        <p class="order-price">
+            <span>{{ '¥' + subTotal }}</span>
+        </p>
+    </div>
+    <div class="order-tax">
+        <p>
+            <span>Tax / 内税</span>
+            <small>({{ Math.round(($store.state.orderlist.shop.tax - 1) * 100) }}%)</small>
+        </p>
+        <p class="order-price">
+            <span>{{ '¥' + tax }}</span>
+        </p>
     </div>
     <hr noshade>
     <div class="order-total">
         <p>
             <span>Total / 合計</span>
         </p>
-        <p class="order-total-price">
-            <span>{{'¥' + total }}</span>
+        <p class="order-price">
+            <span>{{ '¥' + total }}</span>
         </p>
     </div>
     <div class="order-button">
-        <button class="order-button-purchase">
-            <p>
-                <span>Payment / 会計・注文する</span>
-            </p>
+        <button class="order-button-purchase" @click="order">
+            <span>Payment / 会計・注文する</span>
         </button>
         <nuxt-link class="order-button-back"
         :to="{
@@ -89,15 +115,26 @@ export default {
         reloadStore: function(i){
             this.$store.commit('orderlist/removeItem', i);
             this.subTotal = this.$store.state.orderlist.items.map(i => i.sumPrice).reduce((ini, cur) => ini + cur, 0);
-            this.includeTax = Math.round(this.$store.state.orderlist.items.map(i => i.sumPrice).reduce((ini, cur) => ini + cur, 0) * (this.$store.state.orderlist.shop.tax - 1));
+            this.tax = Math.round(this.$store.state.orderlist.items.map(i => i.sumPrice).reduce((ini, cur) => ini + cur, 0) * (this.$store.state.orderlist.shop.tax - 1));
             this.total = Math.round(this.$store.state.orderlist.items.map(i => i.sumPrice).reduce((ini, cur) => ini + cur, 0) * this.$store.state.orderlist.shop.tax);
+            this.quantity = this.$store.state.orderlist.items.map(i => i.number).reduce((ini, cur) => ini + cur, 0);
         },
+        order: function(){
+            const order = new Object();
+            order.user = new Object();
+            order.items = new Object();
+            Object.assign(order.user, this.$store.state.auth.user);
+            Object.assign(order.items, this.$store.state.orderlist.items);
+            this.$store.dispatch('orderlist/order', order);
+            this.$router.push('/orderlist/thanks');
+        }
     },
     data: function(){
         return {
             subTotal: this.$store.state.orderlist.items.map(i => i.sumPrice).reduce((ini, cur) => ini + cur, 0),
-            includeTax: Math.round(this.$store.state.orderlist.items.map(i => i.sumPrice).reduce((ini, cur) => ini + cur, 0) * (this.$store.state.orderlist.shop.tax - 1)),
+            tax: Math.round(this.$store.state.orderlist.items.map(i => i.sumPrice).reduce((ini, cur) => ini + cur, 0) * (this.$store.state.orderlist.shop.tax - 1)),
             total: Math.round(this.$store.state.orderlist.items.map(i => i.sumPrice).reduce((ini, cur) => ini + cur, 0) * this.$store.state.orderlist.shop.tax),
+            quantity: this.$store.state.orderlist.items.map(i => i.number).reduce((ini, cur) => ini + cur, 0),
             text: {
                 size: {
                     'small': 'S',
@@ -115,11 +152,9 @@ export default {
             },
         }
     },
-    fetch: async function(store, params) {
-        axios.get('/api/geek/').then(function(res){
-            // console.log(res);
-        }).catch(console.error());
-    }
+    mounted: function() {
+        if (!(!!firebase.auth().currentUser)) this.$router.push('/auth');
+    },
 }
 </script>
 
@@ -149,8 +184,8 @@ div.order-unit{
     margin-left: 16px;
     margin-right: 16px;
     margin-bottom: 32px;
-    padding-top: 20px;
-    padding-left: 20px;
+    padding-top: 16px;
+    padding-left: 16px;
     padding-right: 20px;
     background: #fff;
     border-radius: 16px;
@@ -224,7 +259,7 @@ div.order-unit{
                 line-height: 12px;
                 span{
                     color: #2a2a2a;
-                    font-size: 10px;
+                    font-size: 12px;
                     font-weight: lighter;
                 }
             }
@@ -300,7 +335,7 @@ div.order-unit{
                 background: #fff;
                 &:active{opacity: 0.4;}
                 &:focus{outline: none;}
-                img{
+                svg{
                     width: 100%;
                     height: 100%;
                     object-fit: contain;
@@ -309,6 +344,23 @@ div.order-unit{
                 }
             }
         }
+    }
+}
+div.order-quantity, div.order-subtotal, div.order-tax{
+    margin-bottom: 8px;
+    padding-left: 20px;
+    padding-right: 20px;
+    display: flex;
+    justify-content: space-between;
+    p{
+        span{
+            color: #2a2a2a;
+            font-size: 16px;
+            font-weight: lighter;
+        }
+    }
+    &.order-tax{
+        margin-bottom: 32px;
     }
 }
 div.order-total{
@@ -326,7 +378,7 @@ div.order-total{
             font-weight: bold;
         }
     }
-    p.order-total-price{
+    p.order-price{
         line-height: 36px;
         span{
             color: #2a2a2a;
@@ -336,8 +388,8 @@ div.order-total{
 }
 div.order-button{
     margin-bottom: 32px;
-    padding-left: 20px;
-    padding-right: 20px;
+    padding-left: 16px;
+    padding-right: 16px;
     button.order-button-purchase{
         appearance: none;
         margin-bottom: 8px;
@@ -345,17 +397,17 @@ div.order-button{
         border-radius: 16px;
         width: 100%;
         height: 64px;
-        &:active{opacity: 0.4;}
-        &:focus{outline: none;}
         background: #2a2a2a;
+        text-align: center;
+        text-decoration: none;
+        line-height: 64px;
         filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
-        p{
-            line-height: 100%;
-            span{
-                color: #fff;
-                font-size: 18px;
-                font-weight: bold;
-            }
+        &:focus{ outline: none; }
+        &:active{ opacity: 0.4; }
+        span{
+            color: #fff;
+            font-size: 18px;
+            font-weight: bold;
         }
     }
     a.order-button-back{
@@ -397,6 +449,7 @@ div.alert-modalview{
         h3, p, a{
             margin-bottom: 16px;
             color: #2a2a2a;
+
         }
         p{
             font-size: 12px;
