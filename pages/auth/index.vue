@@ -80,7 +80,6 @@
 </template>
 
 <script>
-import firebase from '~/plugins/firebase.js';
 import Footer from '~/components/common/Footer.vue';
 export default {
     components: {

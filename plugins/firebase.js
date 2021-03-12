@@ -13,5 +13,4 @@ if (!firebase.apps.length) {
         measurementId: process.env.FIREBASE_MeasurementID
     })
 };
-firebase.auth().languageCode = 'jp';
 export default firebase;

@@ -30,9 +30,8 @@ export default {
 
   // Modules (https://go.nuxtjs.dev/config-modules)
   modules: [
-    'nuxt-webfontloader',
     '@nuxtjs/dotenv',
-    '@nuxtjs/axios',
+    'nuxt-webfontloader',
   ],
   webfontloader: {
     custom: {
