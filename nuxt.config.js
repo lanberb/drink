@@ -21,10 +21,6 @@ export default {
     { src: '~/plugins/firebase.js', ssr: false },
   ],
 
-  // serverMiddleware: [
-  //   { path: "/api/", handler: "~/api/" },
-  // ],
-
   // Auto import components (https://go.nuxtjs.dev/config-components)
   components: true,
 
