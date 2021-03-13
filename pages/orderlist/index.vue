@@ -418,19 +418,9 @@ div.order-button{
         filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
         &:focus{ outline: none; }
         &:active{ opacity: 0.4; }
-        &::before{
-            content: '';
-            border-radius: 16px;
-            width: calc(100% - 8px);
-            height: calc(100% - 8px);
-            position: absolute;
-            top: 4px;
-            left: 4px;
-            background: #fff;
-        }
         span{
             display: block;
-            color: #2a2a2a;
+            color: #fff;
             font-size: 16px;
             font-weight: bold;
             position: relative;
