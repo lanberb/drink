@@ -26,7 +26,20 @@ export default {
 
   // Modules for dev and build (recommended) (https://go.nuxtjs.dev/config-modules)
   buildModules: [
-  ],
+  ],  
+  
+  env: {
+    GUEST_MailAddress: process.env.GUEST_MailAddress || '',
+    GUEST_Password: process.env.GUEST_Password || '',
+    FIREBASE_ApiKey: process.env.FIREBASE_ApiKey || '',
+    FIREBASE_AuthDomain: process.env.FIREBASE_AuthDomain || '',
+    FIREBASE_DatabaseURL: process.env.FIREBASE_DatabaseURL || '',
+    FIREBASE_ProjectID: process.env.FIREBASE_ProjectID || '',
+    FIREBASE_StorageBucket: process.env.FIREBASE_StorageBucket || '',
+    FIREBASE_MessagingSenderID: process.env.FIREBASE_MessagingSenderID || '',
+    FIREBASE_AppID: process.env.FIREBASE_AppID || '',
+    FIREBASE_MeasurementID: process.env.FIREBASE_MeasurementID || '',
+  },
 
   // Modules (https://go.nuxtjs.dev/config-modules)
   modules: [

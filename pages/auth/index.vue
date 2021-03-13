@@ -21,7 +21,7 @@
                         <span>Sign In / 既存アカウントでログイン</span>
                     </p>
                 </button>
-                <button class="guestIn" @click="$store.dispatch('auth/signin', {email: 'lanberb.2@gmail.com', password: 'note10969'})">
+                <button class="guestIn" @click="$store.dispatch('auth/signin', {email: guest.email, password: guest.password})">
                     <p>
                         <span>Guest / ゲストアカウントでお試し</span>
                     </p>
@@ -104,8 +104,8 @@ export default {
     data: function(){
         return {
             guest: {
-                // email: process.env.GUEST_MailAddress,
-                // password: process.env.GUEST_Password,
+                email: process.env.GUEST_MailAddress,
+                password: process.env.GUEST_Password,
             },
             state: '',
             email: 'lanberb.1@gmail.com',
