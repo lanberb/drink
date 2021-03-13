@@ -164,12 +164,12 @@
                 <div class="topping-box"
                 :class="order.topping.includes(atopping) ? 'item-topping-active' : null">
                     <div class="icon">
-                        <svg x="0px" y="0px" viewBox="0 0 512 512">
-                            <g>
-                                <path class="st0" d="M476.188,24.146c-6.748-3.504-60.728,38.022-185.304,67.086C230.347,105.355,62.5,153.527,65.286,392.815
-                                    L0,431.218l20.338,35.598c63.073-40.692,236.014-120.042,409.766-323.621c0,0-26.875,134.419-334.096,311.056
-                                    c103.685,53.758,249.604,53.758,360.979-76.806C568.346,246.888,476.188,24.146,476.188,24.146z"></path>
-                            </g>
+                        <svg viewBox="0 0 512 512" x="0px" y="0px">
+                            <path class="st0" d="M129.2,417.6c0,19.3,15.6,35,35,35H475c19.3,0,35-15.6,35-35v-27.9H129.2V417.6z"/>
+                            <path class="st0" d="M479.9,59.4H143.1h-11.9c-5.2,0-12.2,0-22.2,0C48.8,59.4,0,108.3,0,168.5c0,60.2,48.9,105.6,109.1,109.1
+                                c11.6,0.7,21.8-0.5,30.7-3.2c10.2,31.9,29.2,59.8,54.3,80.8h255.2C487.6,323.1,512,274.9,512,221V91.5
+                                C512,73.8,497.6,59.4,479.9,59.4z M131.2,208.8c-6.6,3.7-14.1,5.9-22.2,5.9c-25.5,0-46.2-20.7-46.2-46.2c0-25.5,20.7-46.2,46.2-46.2
+                                c8.1,0,15.6,2.3,22.2,5.9V208.8z"/>
                         </svg>
                     </div>
                 </div>
@@ -233,7 +233,6 @@ export default {
             itemData.type = this.order.type;
             itemData.price = this.item.price;
             itemData.number = this.order.number;
-            //配列のコピーにconcat()を使うのは正しいんでしょうか……
             itemData.topping = this.order.topping.concat();
             itemData.sumPrice = this.order.sumPrice;
             return itemData;
@@ -598,8 +597,8 @@ div.item-details{
             margin: 0;
         }
         div.item-type-active{
-            &-hot{background: #F56969;}
-            &-iced{background: #69BAF5;}
+            &-hot{background: tomato;}
+            &-iced{background: #55b3f3;}
             &-hot, &-iced{
                 div.icon{
                     svg{
@@ -705,8 +704,8 @@ div.item-details{
                 filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
                 div.icon{
                     position: absolute;
-                    top: 50%;
-                    left: 50%;
+                    top: 52%;
+                    left: 48%;
                     transform: translate(-50%, -50%);
                     svg{
                         fill: #2a2a2a;

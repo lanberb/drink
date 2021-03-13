@@ -15,8 +15,9 @@ $font-ja: "Yu Gothic Medium", "游ゴシック Medium", '游ゴシック', "游�
   font-family: $font-ja;
 }
 div.footer{
-    margin-bottom: 32px;
+    padding-bottom: 32px;
     width: 100%;
+    z-index: 1;
     font-size: 10px;
     text-align: center;
     a{

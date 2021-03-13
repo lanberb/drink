@@ -60,6 +60,19 @@ export const actions = {
             alert('サインアウト中に問題が発生しました。再度ご試行ください。');
         });
     },
+    userUpdate({ commit }, userData) {
+        firebase.auth().currentUser.updateProfile({
+            displayName: userData.name,
+        }).catch(function(error) {
+            alert('アカウントデータの保存にエラーが発生しました。時間を空けて再度ご試行ください。');
+        });
+        firebase.firestore().collection('user').doc(userData.id).set({
+            name: userData.name,
+            email: userData.email,
+        }).catch((error) => {
+            alert('アカウントデータの保存にエラーが発生しました。時間を空けて再度ご試行ください。');
+        });
+    },
 }
 
 export const mutations = {

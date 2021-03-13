@@ -14,13 +14,15 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
+$font-ja: "Yu Gothic Medium", "游ゴシック Medium", '游ゴシック', "游ゴシック体", 'Yu Gothic', YuGothic, 'メイリオ', 'Meiryo', sans-serif;
 *{
   margin: 0;
   -webkit-font-smoothing: antialiased;
+  font-family: $font-ja;
 }
 html{
-  background: #fff;
+  background: #fcfcfc;
 }
 a.menu{
   margin-top: 48px;

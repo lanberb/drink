@@ -2,18 +2,18 @@
   <section>
     <div class="head">
       <h2>おかえりなさい</h2>
-      <h2>{{ name }} さん</h2>
+      <h2>{{ name }}</h2>
     </div>
     <hr noshade>
     <div class="shop">
-      <p>近くの店舗</p>
+      <!-- <p>近くの店舗</p>
       <div class="list-tag">
         <Tag
         v-for="text in 5"
         :key="text.id"
         :data="'タグです'"
         />
-      </div>
+      </div> -->
       <div class="list-shop">
         <CardShop
         v-for="shop in shopList"
@@ -43,9 +43,6 @@ export default {
   data: function(){ 
     return{
       name: !!firebase.auth().currentUser ? firebase.auth().currentUser.displayName : '',
-      params: {
-        recommendTag: {},
-      },
       shopList: [],
     }
   },
@@ -76,15 +73,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-$font-ja: "Yu Gothic Medium", "游ゴシック Medium", '游ゴシック', "游ゴシック体", 'Yu Gothic', YuGothic, 'メイリオ', 'Meiryo', sans-serif;
-*{
-  font-family: $font-ja;
-}
 section{
   padding-top: 64px;
-}
-a.menu{
-  display: none;
 }
 div.head{
   margin-bottom: 32px;
@@ -95,22 +85,26 @@ div.head{
 }
 hr{
   display: block;
-  margin-bottom: 32px;
+  margin-bottom: 16px;
   border: solid 1px #E5E5E5;
   width: calc(100% - 32px);
   position: relative;
   left: 16px;
 }
 div.shop{
-  padding-left: 16px;
-  padding-right: 16px;
+  padding-top: 16px;
+  overflow: hidden;
   p:first-child{
+    padding-left: 16px;
+    padding-right: 16px;
     margin-bottom: 16px;
     color: #2a2a2a;
     font-weight: bold;
   }
   div.list-tag{
     margin-bottom: 24px;
+    padding-left: 16px;
+    padding-right: 16px;
     overflow: visible scroll;
     white-space: nowrap;
     &::-webkit-scrollbar{
@@ -124,6 +118,8 @@ div.shop{
     }
   }
   div.list-shop{
+    padding-left: 16px;
+    padding-right: 16px;
     a.card-shop{
       margin-bottom: 20px;
     }

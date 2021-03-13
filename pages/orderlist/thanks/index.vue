@@ -1,7 +1,9 @@
 <template>
     <section>
         <div class="head">
-            <h1>Thank You</h1>
+            <h1>
+                <span>Thank You!</span>
+            </h1>
             <p class="description">
                 <span>ご注文ありがとうございます！時間が経つと商品が劣化する可能性がございますので、なるべく早め(5~10分目安)に当店にお越しください。商品のお受け取りの際、このアプリで発行されたレシートが必要になります。こちらの画面をスタッフにお見せください。</span>
             </p>
@@ -26,13 +28,15 @@
                     </p>
                 </div>
             </div>
-            
         </div>
         <div class="thanks-button">
             <button @click="remove">
                 <span>Close / レシートを閉じる</span>
             </button>
         </div>
+        <p class="receipt">
+            <span>次回のご注文までこのレシートは保存されます。レシートは右上のメニューから開けます。</span>
+        </p>
         <Footer/>
     </section>
 </template>
@@ -95,23 +99,40 @@ $font-ja: "Yu Gothic Medium", "游ゴシック Medium", '游ゴシック', "游�
   font-family: $font-ja;
 }
 section{
-  padding-top: 144px;
+    &::before, &::after{
+        content: '';
+        width: 8px;
+        height: 100%;
+        position: fixed;
+        top: 0;
+        left: 0;
+        background: repeating-linear-gradient(-45deg,#ff7171 0px, #ff7171 50px, #9fd8df 50px, #9fd8df 100px);
+    }
+    &::after{
+        left: 100%;
+        transform: translateX(-100%);
+    }
 }
 div.head{
+    padding-top: 144px;
     padding-left: 16px;
     padding-right: 16px;
     margin-bottom: 32px;
     h1{
-        margin-bottom: 32px;
         width: 100%;
         text-align: center;
-        color: #2a2a2a;
-        font-size: 48px;
+        filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
+        span{
+            color: #2a2a2a;
+            font-size: 48px;
+            background: repeating-linear-gradient(-45deg,#ff7171 0px, #ff7171 10px, #9fd8df 10px, #9fd8df 20px);
+            background-clip: text;
+        }
     }
     p.description{
-        width: calc(100% - 32px);
+        width: calc(100% - 64px);
         position: relative;
-        left: 16px;
+        left: 32px;
         span{
             color: #2a2a2a;
             font-size: 12px;
@@ -120,15 +141,15 @@ div.head{
     }
 }
 hr{
-    width: calc(100% - 32px);
     display: block;
+    width: calc(100% - 64px);
     position: relative;
-    left: 16px;
+    left: 32px;
     border: solid 1px #E5E5E5;
 }
 div.order-unit{
-    padding-left: 16px;
-    padding-right: 16px;
+    padding-left: 32px;
+    padding-right: 32px;
     padding-bottom: 16px;
     div.order-item{
         padding-top: 32px;
@@ -162,9 +183,9 @@ div.order-unit{
     }
 }
 div.thanks-button{
-    margin-bottom: 32px;
-    padding-left: 16px;
-    padding-right: 16px;
+    margin-bottom: 16px;
+    padding-left: 32px;
+    padding-right: 32px;
     button{
         appearance: none;
         margin-bottom: 8px;
@@ -184,6 +205,18 @@ div.thanks-button{
             font-size: 18px;
             font-weight: bold;
         }
+    }
+}
+p.receipt{
+    padding-left: 32px;
+    margin-bottom: 16px;
+    width: calc(100% - 64px);
+    text-align: center;
+    line-height: 16px;
+    span{
+        color: #2a2a2a;
+        font-size: 12px;
+        font-weight: lighter;
     }
 }
 </style>

@@ -22,7 +22,6 @@ a.tag-shop{
     height: 40px;
     border-radius: 8px;
     background: #2a2a2a;
-    background: repeating-linear-gradient(-45deg,#ff7171 0px, #ff7171 50px, #9fd8df 50px, #9fd8df 100px);
     text-decoration: none;
     p{
         text-align: center;

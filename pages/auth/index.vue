@@ -127,8 +127,8 @@ div.controller{
     position: fixed;
     top: 0;
     z-index: 1;
-    // background: repeating-linear-gradient(-45deg, #f0e4d7, #f0e4d7 50px, #f5c0c0 50px, #f5c0c0  100px, #ff7171 100px, #ff7171 150px, #9fd8df 150px, #9fd8df 200px);
-    background: repeating-linear-gradient(-45deg,#ff7171 0px, #ff7171 50px, #9fd8df 50px, #9fd8df 100px);
+    background: repeating-linear-gradient(-45deg, #f0e4d7, #f0e4d7 50px, #f5c0c0 50px, #f5c0c0  100px, #ff7171 100px, #ff7171 150px, #9fd8df 150px, #9fd8df 200px);
+    // background: repeating-linear-gradient(-45deg,#ff7171 0px, #ff7171 50px, #9fd8df 50px, #9fd8df 100px);
     // background: white;
     // background: url('~/static/image/sample/coffee.jpg');
     background-size: cover;
@@ -210,7 +210,7 @@ div.controller{
         p.description{
             padding: 16px;
             border-radius: 8px;
-            filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
+            filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.6));
             text-align: center;
             span{
                 color: #fff;

@@ -75,6 +75,9 @@
         </p>
     </div>
     <div class="order-button">
+        <button class="order-button-usual" @click="addUsual">
+            <span>Add Usual /【いつもの注文】に追加</span>
+        </button>
         <button class="order-button-purchase" @click="order">
             <span>Payment / 会計・注文する</span>
         </button>
@@ -86,7 +89,6 @@
                 shop: $store.state.orderlist.shop.id,
             },
         }">
-        <!-- <nuxt-link class="order-button-back" to="./"> -->
             <span>Back / 店舗画面へ戻る</span>
         </nuxt-link>
     </div>
@@ -126,6 +128,20 @@ export default {
             Object.assign(order.items, this.$store.state.orderlist.items);
             this.$store.dispatch('orderlist/order', order);
             this.$router.push('/orderlist/thanks');
+        },
+        addUsual: function(){
+            const order = new Object();
+            order.user = new Object();
+            order.shop = new Object();
+            order.items = new Object();
+            order.payment = new Object();
+            order.payment.tax = this.tax;
+            order.payment.subTotal = this.subTotal;
+            order.payment.total = this.total;
+            Object.assign(order.user, this.$store.state.auth.user);
+            Object.assign(order.shop, this.$store.state.orderlist.shop);
+            Object.assign(order.items, this.$store.state.orderlist.items);
+            this.$store.dispatch('orderlist/addUsual', order);
         }
     },
     data: function(){
@@ -185,7 +201,7 @@ div.order-unit{
     margin-bottom: 32px;
     padding-top: 16px;
     padding-left: 16px;
-    padding-right: 20px;
+    padding-right: 16px;
     background: #fff;
     border-radius: 16px;
     filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
@@ -338,8 +354,7 @@ div.order-unit{
                     width: 100%;
                     height: 100%;
                     object-fit: contain;
-                    transform: scale(0.8);
-                    fill: #2a2a2a
+                    fill: #2a2a2a;
                 }
             }
         }
@@ -389,6 +404,39 @@ div.order-button{
     margin-bottom: 32px;
     padding-left: 16px;
     padding-right: 16px;
+    button.order-button-usual{
+        appearance: none;
+        margin-bottom: 8px;
+        border: 0;
+        border-radius: 16px;
+        width: 100%;
+        height: 64px;
+        background: repeating-linear-gradient(-45deg, #f0e4d7, #f0e4d7 50px, #f5c0c0 50px, #f5c0c0  100px, #ff7171 100px, #ff7171 150px, #9fd8df 150px, #9fd8df 200px);
+        text-align: center;
+        text-decoration: none;
+        line-height: 64px;
+        filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
+        &:focus{ outline: none; }
+        &:active{ opacity: 0.4; }
+        &::before{
+            content: '';
+            border-radius: 16px;
+            width: calc(100% - 8px);
+            height: calc(100% - 8px);
+            position: absolute;
+            top: 4px;
+            left: 4px;
+            background: #fff;
+        }
+        span{
+            display: block;
+            color: #2a2a2a;
+            font-size: 16px;
+            font-weight: bold;
+            position: relative;
+            z-index: 1;
+        }
+    }
     button.order-button-purchase{
         appearance: none;
         margin-bottom: 8px;
