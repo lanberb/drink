@@ -392,13 +392,6 @@ div.order-total{
             font-weight: 600;
         }
     }
-    p.order-price{
-        line-height: 36px;
-        span{
-            color: #2a2a2a;
-            font-size: 36px;
-        }
-    }
 }
 div.order-button{
     margin-bottom: 32px;
