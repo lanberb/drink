@@ -324,7 +324,7 @@ div.order-unit{
                     span{
                     color: #2a2a2a;
                         font-size: 24px;
-                        font-weight: bold;
+                        font-weight: 600;
                     }
                 }
             }
@@ -335,7 +335,7 @@ div.order-unit{
                 span{
                     color: #2a2a2a;
                     font-size: 24px;
-                    font-weight: bold;
+                    font-weight: 600;
                 }
             }
             button.order-item-remove{
@@ -389,7 +389,7 @@ div.order-total{
         span{
             color: #2a2a2a;
             font-size: 20px;
-            font-weight: bold;
+            font-weight: 600;
         }
     }
     p.order-price{
@@ -422,7 +422,7 @@ div.order-button{
             display: block;
             color: #fff;
             font-size: 16px;
-            font-weight: bold;
+            font-weight: 600;
             position: relative;
             z-index: 1;
         }
@@ -444,7 +444,7 @@ div.order-button{
         span{
             color: #fff;
             font-size: 18px;
-            font-weight: bold;
+            font-weight: 600;
         }
     }
     a.order-button-back{
@@ -459,7 +459,7 @@ div.order-button{
         span{
             color: #2a2a2a;
             font-size: 12px;
-            font-weight: bold;
+            font-weight: 600;
         }
     }
 }

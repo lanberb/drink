@@ -203,7 +203,7 @@ div.thanks-button{
         span{
             color: #fff;
             font-size: 18px;
-            font-weight: bold;
+            font-weight: 600;
         }
     }
 }

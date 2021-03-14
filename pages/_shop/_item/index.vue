@@ -346,7 +346,7 @@ div.item-info{
         span{
             color: #2a2a2a;
             font-size: 24px;
-            font-weight: bold;
+            font-weight: 600;
         }
         @media (max-width: 320px) {
             line-height: 20px;
@@ -374,7 +374,7 @@ div.item-info{
         span{
             color: #2a2a2a;
             font-size: 24px;
-            font-weight: bold;
+            font-weight: 600;
         }
     }
     button.addButton{
@@ -392,7 +392,7 @@ div.item-info{
             span{
                 color: #fff;
                 font-size: 16px;
-                font-weight: bold;
+                font-weight: 600;
             }
         }
     }
@@ -411,7 +411,7 @@ div.item-details{
         padding-left: 16px;
         span{
             color: #2a2a2a;
-            font-weight: bold;
+            font-weight: 600;
             font-size: 16px;    
         }
     }
@@ -457,7 +457,7 @@ div.item-details{
                 text-align: center;
                 span{
                     color: #2a2a2a;
-                    font-weight: bold;
+                    font-weight: 600;
                     font-size: 10px;
                 }
             }
@@ -544,7 +544,7 @@ div.item-details{
             span{
                 color: #2a2a2a;
                 font-size: 32px;
-                font-weight: bold;
+                font-weight: 600;
             }
         }
     }
@@ -588,7 +588,7 @@ div.item-details{
                 transform: translate(-50%, -50%);
                 span{
                     color: #2a2a2a;
-                    font-weight: bold;
+                    font-weight: 600;
                     font-size: 12px;
                 }
             }
@@ -641,7 +641,7 @@ div.item-details{
                 text-align: center;
                 span{
                     color: #2a2a2a;
-                    font-weight: bold;
+                    font-weight: 600;
                     font-size: 12px;
                 }
             }
@@ -727,7 +727,7 @@ div.item-details{
                 line-height: 16px;
                 span{
                     color: #2a2a2a;
-                    font-weight: bold;
+                    font-weight: 600;
                     font-size: 12px;
                 }
             }

@@ -151,7 +151,7 @@ div.controller{
             span{
                 color: #fff;
                 font-size: 16px;
-                font-weight: bold;
+                font-weight: 600;
             }
         }
         &.guestIn{
@@ -182,7 +182,7 @@ div.controller{
             span{
                 color: #2a2a2a;
                 font-size: 16px;
-                font-weight: bold;
+                font-weight: 600;
             }
         }
     }
@@ -215,7 +215,7 @@ div.controller{
             span{
                 color: #fff;
                 font-size: 16px;
-                font-weight: bold;
+                font-weight: 600;
             }
         }
     }
@@ -231,7 +231,7 @@ div.controller{
             span{
                 color: #2a2a2a;
                 font-size: 16px;
-                font-weight: bold;
+                font-weight: 600;
             }
         }
         input{
@@ -262,7 +262,7 @@ div.controller{
             span{
                 color: #fff;
                 font-size: 16px;
-                font-weight: bold;
+                font-weight: 600;
             }
         }
         input{

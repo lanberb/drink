@@ -291,7 +291,7 @@ div.shop-info{
     margin-bottom: 24px;
     color: #2a2a2a;
     span{
-      font-weight: bold;
+      font-weight: 600;
       font-size: 32px;
       line-height: 40px;
     }
@@ -387,7 +387,7 @@ div.shop-ordertypes{
       text-align: center;
       span{
         color: #2a2a2a;
-        font-weight: bold;
+        font-weight: 600;
         font-size: 10px;
       }
     }
@@ -433,7 +433,7 @@ div.shop-ordermenu-empty{
     text-align: center;
     span{
       font-size: 16px;
-      font-weight: bold;
+      font-weight: 600;
     }
   }
 }
@@ -482,7 +482,7 @@ div.shop-ordermenus{
       text-align: center;
       line-height: 20px;
       span{
-        font-weight: bold;
+        font-weight: 600;
         font-size: 16px;
       }
       small{

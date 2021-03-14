@@ -218,7 +218,7 @@ div.usual{
                     span{
                         color: #2a2a2a;
                         font-size: 24px;
-                        font-weight: bold;
+                        font-weight: 600;
                     }
                 }
             }
@@ -238,7 +238,7 @@ div.usual{
                 p{
                     span{
                         font-size: 24px;
-                        font-weight: bold;
+                        font-weight: 600;
                     }
                 }
             }
@@ -259,7 +259,7 @@ div.usual{
             span{
                 color: #fff;
                 font-size: 16px;
-                font-weight: bold;
+                font-weight: 600;
             }
         }
         button.order-item-remove{
@@ -279,7 +279,7 @@ div.usual{
             span{
                 color: #2a2a2a;
                 font-size: 16px;
-                font-weight: bold;
+                font-weight: 600;
             }
         }
     }

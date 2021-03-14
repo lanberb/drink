@@ -41,6 +41,9 @@ export default {
     FIREBASE_MeasurementID: process.env.FIREBASE_MeasurementID || '',
   },
   manifest: {
+    icon: {
+      source: '~/static/icon.png'
+    },
     name: "Drink!",
     title: "Drink!",
     'og:title': 'Drink!',

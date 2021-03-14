@@ -222,7 +222,7 @@ div.menu{
         span{
           color: #fff;
           font-size: 16px;
-          font-weight: bold;
+          font-weight: 600;
         }
       }
     }
@@ -250,7 +250,7 @@ div.menu{
         span{
           color: #fff;
           font-size: 16px;
-          font-weight: bold;
+          font-weight: 600;
           white-space: nowrap;
         }
       }

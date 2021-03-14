@@ -111,7 +111,7 @@ a.card-shop{
         margin-bottom: 12px;
         span{
             font-family: $font-ja;
-            font-weight: bold;
+            font-weight: 600;
             line-height: 24px;
         }
     }

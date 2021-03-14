@@ -99,7 +99,7 @@ div.shop{
     padding-right: 16px;
     margin-bottom: 16px;
     color: #2a2a2a;
-    font-weight: bold;
+    font-weight: 600;
   }
   div.list-tag{
     margin-bottom: 24px;

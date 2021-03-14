@@ -28,7 +28,7 @@ a.tag-shop{
         span{
             color: #fff;
             font-family: $font-ja;
-            font-weight: bold;
+            font-weight: 600;
             font-size: 12px;
             line-height: 40px;
         }
