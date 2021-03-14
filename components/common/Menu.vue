@@ -11,6 +11,34 @@
         </p>
       </div>
       <nuxt-link
+      class="user"
+      to="/user">
+        <p class="label">
+          <span>Account / アカウント</span>
+        </p>
+        <div class="menu-image-box">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" style="fill: #fff"/>
+          </svg>
+        </div>
+      </nuxt-link>
+      <nuxt-link
+      class="receipt"
+      to="/orderlist/thanks">
+        <p class="label">
+          <span>Last Receipt / 直前のレシート</span>
+        </p>
+        <div class="menu-image-box">
+          <svg viewBox="0 0 24 24" fill="#FFFFFF">
+            <path d="M19.5,3.5L18,2l-1.5,1.5L15,2l-1.5,1.5L12,2l-1.5,1.5L9,2L7.5,3.5L6,2v14H3v3c0,1.66,1.34,3,3,3h12c1.66,0,3-1.34,3-3V2 L19.5,3.5z M15,20H6c-0.55,0-1-0.45-1-1v-1h10V20z M19,19c0,0.55-0.45,1-1,1s-1-0.45-1-1v-3H8V5h11V19z"/>
+            <rect height="2" width="6" x="9" y="7"/>
+            <rect height="2" width="2" x="16" y="7"/>
+            <rect height="2" width="6" x="9" y="10"/>
+            <rect height="2" width="2" x="16" y="10"/>
+          </svg>
+        </div>
+      </nuxt-link>
+      <nuxt-link
       class="orderlist"
       to="/orderlist">
         <p class="label">
@@ -52,34 +80,6 @@
         </div>
       </nuxt-link>
       <nuxt-link
-      class="user"
-      to="/user">
-        <p class="label">
-          <span>Account / アカウント</span>
-        </p>
-        <div class="menu-image-box">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-            <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" style="fill: #fff"/>
-          </svg>
-        </div>
-      </nuxt-link>
-      <nuxt-link
-      class="receipt"
-      to="/orderlist/thanks">
-        <p class="label">
-          <span>Last Receipt / 直前のレシート</span>
-        </p>
-        <div class="menu-image-box">
-          <svg viewBox="0 0 24 24" fill="#FFFFFF">
-            <path d="M19.5,3.5L18,2l-1.5,1.5L15,2l-1.5,1.5L12,2l-1.5,1.5L9,2L7.5,3.5L6,2v14H3v3c0,1.66,1.34,3,3,3h12c1.66,0,3-1.34,3-3V2 L19.5,3.5z M15,20H6c-0.55,0-1-0.45-1-1v-1h10V20z M19,19c0,0.55-0.45,1-1,1s-1-0.45-1-1v-3H8V5h11V19z"/>
-            <rect height="2" width="6" x="9" y="7"/>
-            <rect height="2" width="2" x="16" y="7"/>
-            <rect height="2" width="6" x="9" y="10"/>
-            <rect height="2" width="2" x="16" y="10"/>
-          </svg>
-        </div>
-      </nuxt-link>
-      <nuxt-link
       class="usual"
       to="/usual">
         <p class="label">
@@ -92,6 +92,18 @@
                 c11.6,0.7,21.8-0.5,30.7-3.2c10.2,31.9,29.2,59.8,54.3,80.8h255.2C487.6,323.1,512,274.9,512,221V91.5
                 C512,73.8,497.6,59.4,479.9,59.4z M131.2,208.8c-6.6,3.7-14.1,5.9-22.2,5.9c-25.5,0-46.2-20.7-46.2-46.2c0-25.5,20.7-46.2,46.2-46.2
                 c8.1,0,15.6,2.3,22.2,5.9V208.8z"/>
+          </svg>
+        </div>
+      </nuxt-link>
+      <nuxt-link
+      class="home"
+      to="/">
+        <p class="label">
+          <span>Home / ホームへ戻る</span>
+        </p>
+        <div class="menu-image-box">
+          <svg viewBox="0 0 24 24">
+            <path d="M12 5.69l5 4.5V18h-2v-6H9v6H7v-7.81l5-4.5M12 3L2 12h3v8h6v-6h2v6h6v-8h3L12 3z" fill="#2a2a2a"/>
           </svg>
         </div>
       </nuxt-link>
@@ -111,28 +123,32 @@ div.menu{
   input{
     display: none;
     &:checked + label{
-      height: 480px;
+      height: 560px;
       overflow: visible;
       &::before{
         pointer-events: all;
         opacity: 0.9;
       }
       a{
-        &.orderlist{
-          top: 40%;
+        &.user{
+          top: 35%;
           transform: translateY(-100%);
         }
-        &.user{
-          top: 60%;
+        &.receipt{
+          top: 50%;
           transform: translateY(-200%);
         }
-        &.receipt{
-          top: 80%;
+        &.orderlist{
+          top: 65%;
           transform: translateY(-300%);
         }
         &.usual{
-          top: 100%;
+          top: 80%;
           transform: translateY(-400%);
+        }
+        &.home{
+          top: 95%;
+          transform: translateY(-500%);
         }
       }
       div.hamburger{
@@ -147,7 +163,7 @@ div.menu{
         }
       }
       div.menu-badge{
-        top: calc(34% - 36px);
+        top: calc(65% - 64px);
       }
     }
   }
@@ -192,14 +208,14 @@ div.menu{
       &::after{top: 60%;}
     }
     div.menu-badge{
-      transition: 250ms;
+      transition: 350ms;
       border-radius: 50%;
       position: absolute;
       top: -8px;
       left: -8px;
       width: 24px;
       height: 24px;
-      background: orangered;
+      background: tomato;
       z-index: 2;
       p{
         text-align: center;
@@ -218,7 +234,11 @@ div.menu{
       height: 56px;
       position: relative;
       top: 0;
+      transform: translateY(0%);
       background: #2a2a2a;
+      &.home{
+        background: #fff;
+      }
       p.label{
         width: calc(100vw - 80px);
         position: absolute;

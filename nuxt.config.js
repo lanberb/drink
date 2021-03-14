@@ -40,9 +40,21 @@ export default {
     FIREBASE_AppID: process.env.FIREBASE_AppID || '',
     FIREBASE_MeasurementID: process.env.FIREBASE_MeasurementID || '',
   },
-
+  manifest: {
+    name: "Drink!",
+    title: "Drink!",
+    'og:title': 'Drink!',
+    description: 'いつもの一杯をもっとスマートに。生活のひとときをシームレスに。',
+    'og:description': 'いつもの一杯をもっとスマートに。生活のひとときをシームレスに。',
+    lang: 'ja',
+    theme_color: "#ff7171",
+    background_color: "#fff",
+    scope: "/",
+    start_url: "/"
+  },
   // Modules (https://go.nuxtjs.dev/config-modules)
   modules: [
+    '@nuxtjs/pwa',
     '@nuxtjs/dotenv',
     'nuxt-webfontloader',
   ],
