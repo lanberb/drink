@@ -42,7 +42,7 @@ export default {
   },
   manifest: {
     icon: {
-      source: '~/static/icon.png'
+      source: '~/static/drink.png'
     },
     name: "Drink!",
     title: "Drink!",
