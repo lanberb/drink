@@ -8,7 +8,7 @@ export default {
       { hid: 'description', name: 'description', content: '' }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/drink.png' }
+      { rel: 'icon', type: 'image/x-icon', href: '/icon.png' }
     ]
   },
 
@@ -42,7 +42,7 @@ export default {
   },
   manifest: {
     icon: {
-      source: '~/static/drink.png'
+      source: '~/static/icon.png'
     },
     name: "Drink!",
     title: "Drink!",
