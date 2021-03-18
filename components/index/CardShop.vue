@@ -83,7 +83,7 @@
                     </svg>
                 </div>
                 <p class="label">
-                    <span>¥440~¥790</span>
+                    <span>¥440~¥890</span>
                 </p>
             </div>
         </div>
