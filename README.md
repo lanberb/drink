@@ -1,4 +1,4 @@
-# drink
+# Drink!
 
 ## Build Setup
 
