@@ -14,7 +14,7 @@
         v-for="(item, index) in $store.state.orderlist.items"
         :key="'item-' + index">
             <div class="order-item-image">
-                <img src="~/static/image/sample/coffee.jpg" alt="item-image">
+                <img :src="item.thumbnail" alt="item-image">
             </div>
             <div class="order-item-details">
                 <h4 class="order-item-name">

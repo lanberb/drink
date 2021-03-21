@@ -185,13 +185,13 @@
     </div>
     <div class="shop-ordermenus">
       <nuxt-link class="ordermenu"
-      v-for="(order, index) in items"
-      :key="order.id"
+      v-for="(item, index) in items"
+      :key="item.id"
       :to="{
           name: 'shop-item',
           path: '/shop/:item/',
           params: {
-              item: order.itemId,
+              item: item.itemId,
           },
       }"
       >
@@ -199,8 +199,8 @@
           <img :src="itemThumbnail[index]" alt="menu">
         </div>
         <p class="ordermenu-title">
-          <span>{{ order.name_ja }}</span><br>
-          <small>{{ order.name_en }}</small>
+          <span>{{ item.name_ja }}</span><br>
+          <small>{{ item.name_en }}</small>
         </p>
       </nuxt-link>
     </div>
@@ -312,6 +312,7 @@ div.thumbnail{
     }
 }
 div.shop-info{
+  padding-top: 8px;
   padding-left: 16px;
   padding-right: 16px;
   div.breadcrumb-list{
@@ -322,8 +323,8 @@ div.shop-info{
     color: #2a2a2a;
     span{
       font-weight: 600;
-      font-size: 32px;
-      line-height: 40px;
+      font-size: 24px;
+      line-height: 32px;
     }
   }
   div.icon{
@@ -355,7 +356,6 @@ div.shop-info{
   }
   div.info{
     display: flex;
-    justify-content: space-between;
     width: 100%;
     div.seats-available, div.price-drink, div.price-meal{
         display: flex;

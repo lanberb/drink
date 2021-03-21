@@ -60,7 +60,7 @@ export default {
         list.push(shop);
       });
       if (!!store.store.state.orderlist.shop.id) {
-        const index = list.map(i => i.id).indexOf(store.store.state.orderlist.shop.shopId);
+        const index = list.map(i => i.shopId).findIndex(i => i == store.store.state.orderlist.shop.id);
         const el = list[index];
         list.splice(0);
         list.push(el);

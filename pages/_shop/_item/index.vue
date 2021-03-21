@@ -235,6 +235,8 @@ export default {
             itemData.number = this.order.number;
             itemData.topping = this.order.topping.concat();
             itemData.sumPrice = this.order.sumPrice;
+            itemData.thumbnail = this.order.thumbnail;
+            itemData
             return itemData;
         },
     },
@@ -247,8 +249,9 @@ export default {
         });
         this.thumbnail = uri;
         this.order.id = this.item.id;
-        this.order.name = this.item.name_ja;
         this.order.for = this.item.for[0];
+        this.order.name = this.item.name_ja;
+        this.order.thumbnail = uri;
         if (this.item.category == 'drink') {
             this.order.type = this.item.type[0];
         }
@@ -266,6 +269,7 @@ export default {
                 number: 1,
                 topping: [],
                 sumPrice: 0,
+                thumbnail: '',
             },
             shop: '',
             item: '',
@@ -571,7 +575,7 @@ div.item-details{
             margin-right: 16px;
             padding-left: 16px;
             position: relative;
-            width: 160px;
+            width: 144px;
             height: 64px;
             border-radius: 16px;
             background: #fff;
