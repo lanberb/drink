@@ -20,6 +20,7 @@
         :key="shop.id"
         :id="shop.shopId"
         :name="shop.name_ja"
+        :thumbnail="shop.thumbnail"
         :crowdStatus="shop.crowdStatus"
         />
       </div>

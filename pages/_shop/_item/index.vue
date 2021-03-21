@@ -1,7 +1,7 @@
 <template>
 <section>
     <div class="thumbnail">
-      <img src="~/static/image/sample/starbucks.jpg" alt="shop-thumbnail">
+      <img :src="thumbnail" alt="shop-thumbnail">
     </div>
     <div class="item-info">
         <!-- <BreadcrumbList
@@ -238,7 +238,14 @@ export default {
             return itemData;
         },
     },
-    mounted: function(){
+    mounted: async function(){
+        let uri = '';
+        await firebase.storage().ref().child('shop/' + this.shop.id + '/itemThumbnail/' + this.item.thumbnail).getDownloadURL().then(function(res) {
+            uri = res;
+        }).catch(function(error) {
+            uri = null;
+        });
+        this.thumbnail = uri;
         this.order.id = this.item.id;
         this.order.name = this.item.name_ja;
         this.order.for = this.item.for[0];
@@ -264,6 +271,7 @@ export default {
             item: '',
             topping: [],
             options: '',
+            thumbnail: '',
             text: {
                 size: {
                     'small': 'S',

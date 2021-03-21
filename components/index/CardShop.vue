@@ -14,9 +14,9 @@
         <div class="image-list">
             <div 
             class="image-box"
-            v-for="url in 3"
+            v-for="url in shopThumbnail"
             :key="url.id">
-                <img src="~/static/image/sample/starbucks.jpg" alt="shop-image">
+                <img :src="url" alt="shop-image">
             </div>
         </div>
         <hr noshade>
@@ -91,8 +91,27 @@
 </template>
 
 <script>
+import firebase from '~/plugins/firebase.js';
 export default {
-    props: ['id', 'name', 'crowdStatus'],
+    props: ['id', 'name', 'thumbnail', 'crowdStatus'],
+    data: function() {
+        return {
+            shopThumbnail: []
+        }
+    },
+    mounted: async function() {
+        const images = [];
+        const id = this.id;
+        const uri = Object.values(this.thumbnail);
+        for (let i = 0; i < uri.length; i++) {
+            await firebase.storage().ref().child('shop/' + id + '/shopThumbnail/' + uri[i]).getDownloadURL().then(function(res) {
+                images.push(res);
+            }).catch(function(error) {
+                images.push(null);
+            });
+        }
+        this.shopThumbnail = images.concat();
+    }
 }
 </script>
 

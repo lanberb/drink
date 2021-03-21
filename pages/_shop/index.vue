@@ -1,11 +1,11 @@
 <template>
 <section>
     <div class="thumbnail">
-      <img src="~/static/image/sample/starbucks.jpg" alt="shop-thumbnail">
+      <img :src="shopThumbnail" alt="shop-thumbnail">
     </div>
     <div class="shop-info">
       <p class="shop-title">
-        <span>スターバックス仙台中央通店</span>
+        <span>{{ shop.name_ja }}</span>
       </p>
       <div class="access">
           <div class="icon">
@@ -185,7 +185,7 @@
     </div>
     <div class="shop-ordermenus">
       <nuxt-link class="ordermenu"
-      v-for="order in items"
+      v-for="(order, index) in items"
       :key="order.id"
       :to="{
           name: 'shop-item',
@@ -196,7 +196,7 @@
       }"
       >
         <div class="ordermenu-image">
-          <img src="~/static/image/sample/coffee.jpg" alt="menu">
+          <img :src="itemThumbnail[index]" alt="menu">
         </div>
         <p class="ordermenu-title">
           <span>{{ order.name_ja }}</span><br>
@@ -219,8 +219,8 @@ export default {
   watch: {
     ordertype: async function(value){
       const itemData = [];
-      const shop_id = this.$route.params.shop;
-      await db.collection('shop').doc(shop_id).collection('menu_item').get().then(function(querySnapshot){
+      const shopId = this.$route.params.shop;
+      await db.collection('shop').doc(shopId).collection('menu_item').get().then(function(querySnapshot){
         querySnapshot.forEach((doc) => {
           const shop = doc.data();
           if (shop.category == value) {
@@ -229,7 +229,17 @@ export default {
           }
         });
       }).catch(console.error);
+      let itemThumb = [];
+      const router = this.$router;
+      for (let i = 0; i < itemData.map(i => i.thumbnail).length; i++) {
+        await firebase.storage().ref().child('shop/' + this.shop.id + '/itemThumbnail/' + itemData.map(i => i.thumbnail)[i]).getDownloadURL().then(function(res) {
+          itemThumb.push(res);
+        }).catch(function(error) {
+          router.push('/');
+        });
+      }
       this.items = itemData.concat();
+      this.itemThumbnail = itemThumb.concat();
     }
   },
   data: function(){ 
@@ -237,16 +247,36 @@ export default {
         ordertype: 'drink',
         shop: '',
         items: '',
+        shopThumbnail: '',
+        itemThumbnail: '',
     }
   },
-  mounted: function() {
+  mounted: async function() {
     if (!(!!firebase.auth().currentUser)) this.$router.push('/login');
+    let shopThumb = '';
+    let itemThumb = [];
+    const router = this.$router;
+    await firebase.storage().ref().child('shop/' + this.shop.id + '/shopThumbnail/' + Object.values(this.shop.thumbnail)[0]).getDownloadURL().then(function(res) {
+      shopThumb = res;
+    }).catch(function(error) {
+      router.push('/');
+    });
+    for (let i = 0; i < this.items.map(i => i.thumbnail).length; i++) {
+      await firebase.storage().ref().child('shop/' + this.shop.id + '/itemThumbnail/' + this.items.map(i => i.thumbnail)[i]).getDownloadURL().then(function(res) {
+        itemThumb.push(res);
+      }).catch(function(error) {
+        router.push('/');
+      });
+    }
+    this.shopThumbnail = shopThumb;
+    this.itemThumbnail = itemThumb.concat();
   },
   asyncData: async function(query){
     var shopData = '';
     var itemsData = [];
     await db.collection('shop').doc(query.params.shop).get().then(function(anshop){
       shopData = anshop.data();
+      shopData.id = anshop.id;
     }).catch(console.error);
     await db.collection('shop').doc(query.params.shop).collection('menu_item').get().then(function(querySnapshot){
       querySnapshot.forEach((doc) => {
