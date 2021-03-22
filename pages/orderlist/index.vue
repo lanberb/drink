@@ -418,6 +418,7 @@ div.order-button{
             font-weight: 600;
             position: relative;
             z-index: 1;
+            filter: drop-shadow(0 0 8px rgba(0, 0, 0, 0.4));
         }
     }
     button.order-button-purchase{

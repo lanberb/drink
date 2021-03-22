@@ -49,8 +49,15 @@ export default {
   },
   mounted: function() {
     if (!(!!firebase.auth().currentUser)) this.$router.push('/auth');
+    // const uid = firebase.auth().currentUser.uid;
+    // console.log(uid);
+    // await db.collection('admin').doc(uid).get().then(function(admin){
+    //   // if (!!admin.data()) {
+    //   //   route.push('/admin');
+    //   // }
+    // }).catch(console.error);
   },
-  asyncData: async function(store){
+  asyncData: async function(store, route){
     const db = firebase.firestore();
     var list = [];
     return db.collection('shop').get().then(function(querySnapshot){
