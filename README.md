@@ -1,5 +1,5 @@
 # Drink! 
-リンクはこちら [https://drink-lanberb.herokuapp.com/](https://drink-lanberb.herokuapp.com/)
+リンクはこちら [https://lanberb-drink.herokuapp.com/](https://lanberb-drink.herokuapp.com/)
 
 ## 概要
 #### 【コンセプト】「いつもの一杯をもっとスマートに。生活のひとときをシームレスに✨」  
