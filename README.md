@@ -1,5 +1,5 @@
 # Drink! 
-リンクはこちら [https://arcane-peak-42204.herokuapp.com/](https://arcane-peak-42204.herokuapp.com/)
+リンクはこちら [https://drink-lanberb.herokuapp.com/](https://drink-lanberb.herokuapp.com/)
 
 ## 概要
 #### 【コンセプト】「いつもの一杯をもっとスマートに。生活のひとときをシームレスに✨」  
