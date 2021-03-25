@@ -16,7 +16,7 @@
                 v-for="(item, index) in usual.items"
                 :key="'item-' + index">
                     <div class="order-item-image">
-                        <img src="~/static/image/sample/coffee.jpg" alt="item-image">
+                        <img :src="item.thumbnail" alt="item-image">
                     </div>
                     <div class="order-item-details">
                         <h4 class="order-item-name">
@@ -94,7 +94,6 @@ export default {
         },
     },
     mounted: function() {
-        console.log(this.receipts)
     },
     data: function(){ 
         return{
@@ -119,16 +118,21 @@ export default {
     },
     asyncData: async function(){
         var list = [];
-        return firebase.firestore().collection('user').doc(firebase.auth().currentUser.uid).collection('order_usual').get().then(function(querySnapshot){
+        await firebase.firestore().collection('user').doc(firebase.auth().currentUser.uid).collection('order_usual').get().then(function(querySnapshot){
             querySnapshot.forEach((doc) => {
                 const order = doc.data();
                 order.id = Number(doc.id);
                 list.push(order);
             });
-            return {
-                receipts: list.concat(),
-            }
         }).catch(console.error);
+        for (let i = 0; i < list.length; i++) {
+            for (let n = 0; n < Object.values(list[i].items).length; n++) {
+                console.log(list[i].items[n].thumbnail);
+            }
+        }
+        return {
+            receipts: list.concat(),
+        }
     },
 }
 </script>

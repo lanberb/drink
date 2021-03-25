@@ -6,10 +6,14 @@
 </template>
 
 <script>
+import firebase from '~/plugins/firebase.js';
 import Menu from '~/components/common/Menu.vue';
 export default {
   components: {
     Menu,
+  },
+  mounted: function() {
+        if (!(!!firebase.auth().currentUser)) this.$router.push('/auth');
   },
 }
 </script>

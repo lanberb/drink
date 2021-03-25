@@ -114,10 +114,9 @@ export default {
         }
     },
     mounted: function(){
-        // if (!!firebase.auth().currentUser) this.$router.push('/');
         this.$store.dispatch('auth/signOut');
     },
-}//インターン行きたい
+}
 </script>
 
 <style lang="scss" scoped>

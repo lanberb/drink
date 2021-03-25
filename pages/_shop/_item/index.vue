@@ -236,7 +236,6 @@ export default {
             itemData.topping = this.order.topping.concat();
             itemData.sumPrice = this.order.sumPrice;
             itemData.thumbnail = this.order.thumbnail;
-            itemData
             return itemData;
         },
     },

@@ -57,7 +57,7 @@ export default {
     //   // }
     // }).catch(console.error);
   },
-  asyncData: async function(store, route){
+  asyncData: async function(store){
     const db = firebase.firestore();
     var list = [];
     return db.collection('shop').get().then(function(querySnapshot){

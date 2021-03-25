@@ -252,7 +252,7 @@ export default {
     }
   },
   mounted: async function() {
-    if (!(!!firebase.auth().currentUser)) this.$router.push('/login');
+    if (!(!!firebase.auth().currentUser)) this.$router.push('/auth');
     let shopThumb = '';
     let itemThumb = [];
     const router = this.$router;
