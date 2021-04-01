@@ -15,7 +15,7 @@ export const actions = {
     const d = now.getDate() + '';
     const mo = (now.getMonth() + 1)  + '';
     const y = now.getFullYear() + '';
-    const fullDate = y + (mo > 9 ? mo : '0' + mo) + d + (h > 9 ? h : '0' + h) + (mi > 9 ? mi : '0' + mi) + (s > 9 ? s : '0' + s);
+    const fullDate = y + (mo > 9 ? mo : '0' + mo) + (d > 9 ? d : '0' + d) + (h > 9 ? h : '0' + h) + (mi > 9 ? mi : '0' + mi) + (s > 9 ? s : '0' + s);
     // 秒まで取得 y + (mo > 9 ? mo : '0' + mo) + d + (h > 9 ? h : '0' + h) + mi + (s > 9 ? s : '0' + s);
     // 秒から時間まで取得 (h > 9 ? h : '0' + h) + mi + (s > 9 ? s : '0' + s);
     // 日付まで取得 y + (mo > 9 ? mo : '0' + mo) + d;
