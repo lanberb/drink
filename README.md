@@ -1,5 +1,5 @@
 # Drink! 
-![Drink!](https://github.com/lanberb/repository-images/drink/drink1.png?raw=true "サンプル")
+![Drink!](static/guide/drink1.pngg "サンプル")
 リンクはこちら [https://arcane-peak-42204.herokuapp.com/](https://arcane-peak-42204.herokuapp.com/)
 
 ## 概要
