@@ -40,21 +40,6 @@ export default {
     FIREBASE_AppID: process.env.FIREBASE_AppID || '',
     FIREBASE_MeasurementID: process.env.FIREBASE_MeasurementID || '',
   },
-  manifest: {
-    icon: {
-      source: '/icon.png'
-    },
-    name: "Drink!",
-    title: "Drink!",
-    'og:title': 'Drink!',
-    description: 'いつもの一杯をもっとスマートに。生活のひとときをシームレスに。',
-    'og:description': 'いつもの一杯をもっとスマートに。生活のひとときをシームレスに。',
-    lang: 'ja',
-    theme_color: "#ff7171",
-    background_color: "#fff",
-    scope: "/",
-    start_url: "/"
-  },
   // Modules (https://go.nuxtjs.dev/config-modules)
   modules: [
     '@nuxtjs/pwa',
@@ -70,6 +55,21 @@ export default {
         "https://fonts.googleapis.com/css2?family=Oleo+Script:wght@400&display=swap&text=Drink!"
       ]
     }
+  },
+  manifest: {
+    icon: {
+      source: '/icon.png'
+    },
+    name: "Drink!",
+    title: "Drink!",
+    'og:title': 'Drink!',
+    description: 'いつもの一杯をもっとスマートに。生活のひとときをシームレスに。',
+    'og:description': 'いつもの一杯をもっとスマートに。生活のひとときをシームレスに。',
+    lang: 'ja',
+    theme_color: "#ff7171",
+    background_color: "#fff",
+    scope: "/",
+    start_url: "/"
   },
   // Build Configuration (https://go.nuxtjs.dev/config-build)
   build: {

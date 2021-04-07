@@ -1,6 +1,6 @@
 # Drink! 
 ![Drink!](static/guide/drink1.png "サンプル")
-リンクはこちら [https://arcane-peak-42204.herokuapp.com/](https://arcane-peak-42204.herokuapp.com/)
+リンクはこちら [https://lanberb-drink.herokuapp.com/](https://lanberb-drink.herokuapp.com/)
 
 ## 概要
 ![Drink!](static/guide/drink2.png "サンプル")
